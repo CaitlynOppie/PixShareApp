@@ -6,13 +6,37 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="PixShareTranslator" />
-        <module name="PixSharePresentation" />
-        <module name="PixShareLogic" />
-        <module name="PixShareDomain" />
-        <module name="PixShareAWS" />
-        <module name="PixShareRepository" />
+        <module name="PixShareAppRepository" />
+        <module name="PixShareAppTranslator" />
+        <module name="PixShareAppPresentation" />
+        <module name="PixShareAppDomain" />
+        <module name="PixShareAppLogic" />
+        <module name="PixShareAppAWS" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="PixShareAWS" target="8" />
+      <module name="PixShareDomain" target="8" />
+      <module name="PixShareLogic" target="8" />
+      <module name="PixSharePresentation" target="8" />
+      <module name="PixShareRepository" target="8" />
+      <module name="PixShareTranslator" target="8" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="PixShareAWS" options="-parameters" />
+      <module name="PixShareAppAWS" options="-parameters" />
+      <module name="PixShareAppDomain" options="-parameters" />
+      <module name="PixShareAppLogic" options="-parameters" />
+      <module name="PixShareAppPresentation" options="-parameters" />
+      <module name="PixShareAppRepository" options="-parameters" />
+      <module name="PixShareAppTranslator" options="-parameters" />
+      <module name="PixShareDomain" options="-parameters" />
+      <module name="PixShareLogic" options="-parameters" />
+      <module name="PixSharePresentation" options="-parameters" />
+      <module name="PixShareRepository" options="-parameters" />
+      <module name="PixShareTranslator" options="-parameters" />
+    </option>
   </component>
 </project>

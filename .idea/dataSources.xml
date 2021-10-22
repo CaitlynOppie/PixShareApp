@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="pixsharedb" uuid="6e899227-dfb2-4003-bdca-5b4177d90689">
+    <data-source source="LOCAL" name="pixsharedb" uuid="f9f5a564-98b5-46d8-9b71-d580fa3302c3">
       <driver-ref>mysql.8</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
