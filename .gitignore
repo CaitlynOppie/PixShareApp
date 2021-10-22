@@ -1,0 +1,7 @@
+# Project exclude paths
+/PixShareAppAWS/target/
+/PixShareAppDomain/target/
+/PixShareAppLogic/target/
+/PixShareAppPresentation/target/
+/PixShareAppRepository/target/
+/PixShareAppTranslator/target/
