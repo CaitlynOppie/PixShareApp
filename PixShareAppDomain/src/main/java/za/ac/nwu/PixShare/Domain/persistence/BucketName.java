@@ -2,7 +2,7 @@ package za.ac.nwu.PixShare.Domain.persistence;
 
 public enum BucketName {
 // Set up bucket
-    PROFILE_IMAGE("img-upload0609");
+    PROFILE_IMAGE("pixshare");
 
     private final String bucketName;
 

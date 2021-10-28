@@ -30,7 +30,7 @@ public class Image {
     private String location;
 
     @Column(name = "IMAGE_DATE")
-    private LocalDate date;
+    private String date;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "USER_ID")
@@ -48,7 +48,7 @@ public class Image {
         this.imageID = imageID;
     }
 
-    public Image(Integer imageID, String link, String name, double size, String location, LocalDate date, User userID) {
+    public Image(Integer imageID, String link, String name, double size, String location, String date, User userID) {
         this.imageID = imageID;
         this.link = link;
         this.name = name;
@@ -58,7 +58,7 @@ public class Image {
         this.userID = userID;
     }
 
-    public Image(Integer imageID, String link, String name, double size, String location, LocalDate date, Integer userID) {
+    public Image(Integer imageID, String link, String name, double size, String location, String date, Integer userID) {
         this.imageID = imageID;
         this.link = link;
         this.name = name;
@@ -108,11 +108,11 @@ public class Image {
         this.location = location;
     }
 
-    public LocalDate getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(String date) {
         this.date = date;
     }
 

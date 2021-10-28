@@ -16,13 +16,13 @@ public class ImageDTO {
     private String name;
     private double size;
     private String location;
-    private LocalDate date;
+    private String date;
     private static Integer userID;
 
     public ImageDTO() {
     }
 
-    public ImageDTO(Integer imageID, String link, String name, double size, String location, LocalDate date, Integer userID) {
+    public ImageDTO(Integer imageID, String link, String name, double size, String location, String date, Integer userID) {
         this.imageID = imageID;
         this.link = link;
         this.name = name;
@@ -141,11 +141,11 @@ public class ImageDTO {
             example = "2021-10-18",
             required = true)
 
-    public LocalDate getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(String date) {
         this.date = date;
     }
 
