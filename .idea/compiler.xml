@@ -6,15 +6,15 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="PixShareAppDomain" />
+        <module name="PixShareAppLogic" />
         <module name="PixShareAppRepository" />
         <module name="PixShareAppTranslator" />
         <module name="PixShareAppPresentation" />
-        <module name="PixShareAppDomain" />
-        <module name="PixShareAppLogic" />
-        <module name="PixShareAppAWS" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="PixShareAppAWS" target="8" />
       <module name="PixShareAWS" target="8" />
       <module name="PixShareDomain" target="8" />
       <module name="PixShareLogic" target="8" />

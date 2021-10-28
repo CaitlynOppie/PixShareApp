@@ -11,4 +11,6 @@ import za.ac.nwu.PixShare.Repo.config.RepoConfig;
         "za.ac.nwu.PixShare.Translator"
 })
 public class TranslatorConfig {
+
+
 }

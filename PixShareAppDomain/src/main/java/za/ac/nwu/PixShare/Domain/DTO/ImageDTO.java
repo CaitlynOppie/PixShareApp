@@ -74,7 +74,7 @@ public class ImageDTO {
         notes = "Identifies the link to the image stored in cloud storage",
         dataType = "java.lang.String",
 //        insert example link
-        example = "Caitlyn",
+        example = "",
         required = true)
 
     public String getLink() {
