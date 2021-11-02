@@ -8,5 +8,23 @@
       <jdbc-url>jdbc:mysql://pixsharedb.czoisfxi5lk4.us-east-1.rds.amazonaws.com:3306</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
+    <data-source source="LOCAL" name="PixShareAppService/Hibernate" uuid="e389e55f-1875-4e60-85cd-02f189de39ba">
+      <driver-ref>mysql.8</driver-ref>
+      <synchronize>true</synchronize>
+      <imported>true</imported>
+      <remarks>Hibernate</remarks>
+      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mysql://pixsharedb.czoisfxi5lk4.us-east-1.rds.amazonaws.com:3306/pixsharedb</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
+    <data-source source="LOCAL" name="PixShareAppRepository/Hibernate" uuid="6a78a512-d0fe-4d32-b2bb-3e517cfaba52">
+      <driver-ref>mysql.8</driver-ref>
+      <synchronize>true</synchronize>
+      <imported>true</imported>
+      <remarks>Hibernate</remarks>
+      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mysql://pixsharedb.czoisfxi5lk4.us-east-1.rds.amazonaws.com:3306/pixsharedb</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
   </component>
 </project>

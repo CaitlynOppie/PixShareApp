@@ -27,6 +27,7 @@ public class ImageController {
         this.imageService = imageService;
     }
 
+//  UPLOAD IMAGE
     @PostMapping(
             path = "/upload/{userID}",
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
@@ -37,10 +38,11 @@ public class ImageController {
             @ApiResponse(code = 400, message = "Bad Request", response = Response.class),
             @ApiResponse(code = 404, message = "Not Found", response = Response.class)
     })
-    public void uploadImage(@PathVariable("userID") Integer userID, @RequestParam("file") MultipartFile file) throws IOException {
-        imageService.uploadImage(file, userID);
+    public ResponseEntity<String> uploadImage(@PathVariable("userID") Integer userID, @RequestParam("file") MultipartFile file) throws IOException {
+        return new ResponseEntity<>(imageService.uploadImage(file, userID), HttpStatus.OK);
     }
 
+//  DELETE IMAGE
     @DeleteMapping(
             path = "/delete/{imgName}/{userID}")
     @ApiOperation(value = "Deletes image.", notes = "Deletes image from AWS.")
@@ -49,23 +51,13 @@ public class ImageController {
             @ApiResponse(code = 400, message = "Bad Request", response = Response.class),
             @ApiResponse(code = 404, message = "Not Found", response = Response.class)
     })
-    public ResponseEntity<String> deleteFile(@PathVariable String imgName, @PathVariable Integer userID) {
+    public ResponseEntity<String> deleteFile(@PathVariable String imgName, @PathVariable Integer userID) throws Exception {
         return new ResponseEntity<>(imageService.deleteImage(imgName, userID), HttpStatus.OK);
     }
 
 //    View Image
 
-
-//    @PutMapping("/customers/{id}")
-//public ResponseEntity<Customer> updateCustomer(@RequestBody Customer customer) {
-//
-//	try {
-//		return new ResponseEntity<Customer>(customerRepo.save(customer), HttpStatus.OK);
-//	} catch (Exception e) {
-//		return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-//	}
-//}
-
+//    UPDATE IMAGE METADATA
 //    @PutMapping(
 //            path = "/updateMetadata/{imgOldName}/{imgNewName}/{userID}")
 //    @ApiOperation(value = "Updates image metadata.", notes = "Updates image metadata.")
@@ -78,7 +70,7 @@ public class ImageController {
 //        return new ResponseEntity<>(imageService.updateMetadata(userID,imgOldName,imgNewName), HttpStatus.OK);
 //    }
 
-    //    DOWNLOAD IMAGE
+//  DOWNLOAD IMAGE
     @GetMapping(
             path = "/download/{imgName}/{userID}")
     @ApiOperation(value = "Downloads image to user's PC.", notes = "Downloads image from AWS to user's PC.")

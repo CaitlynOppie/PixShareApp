@@ -9,7 +9,7 @@ public interface ImageService {
 
     String uploadImage(MultipartFile image, Integer userID) throws IOException;
 
-    String deleteImage(String imgName, Integer userID);
+    String deleteImage(String imgName, Integer userID) throws Exception;
 
     ByteArrayOutputStream downloadImage(String imgName, Integer userID) throws IOException;
 

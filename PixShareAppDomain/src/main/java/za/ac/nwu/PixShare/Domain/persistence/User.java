@@ -24,9 +24,6 @@ public class User {
     @Column(name = "USER_EMAIL")
     private String email;
 
-    @Column(name = "USERNAME")
-    private String username;
-
     @Column(name = "PASSWORD")
     private String password;
 
@@ -45,12 +42,11 @@ public class User {
         this.userID = userID;
     }
 
-    public User(Integer userID, String firstName, String lastName, String email, String username, String password) {
+    public User(Integer userID, String firstName, String lastName, String email, String password) {
         this.userID = userID;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
-        this.username = username;
         this.password = password;
     }
 
@@ -86,14 +82,6 @@ public class User {
         this.email = email;
     }
 
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
     public String getPassword() {
         return password;
     }
@@ -107,12 +95,12 @@ public class User {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return Objects.equals(userID, user.userID) && Objects.equals(firstName, user.firstName) && Objects.equals(lastName, user.lastName) && Objects.equals(email, user.email) && Objects.equals(username, user.username) && Objects.equals(password, user.password);
+        return Objects.equals(userID, user.userID) && Objects.equals(firstName, user.firstName) && Objects.equals(lastName, user.lastName) && Objects.equals(email, user.email) && Objects.equals(password, user.password);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(userID, firstName, lastName, email, username, password);
+        return Objects.hash(userID, firstName, lastName, email, password);
     }
 
     @Override
@@ -122,7 +110,6 @@ public class User {
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
-                ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 '}';
     }

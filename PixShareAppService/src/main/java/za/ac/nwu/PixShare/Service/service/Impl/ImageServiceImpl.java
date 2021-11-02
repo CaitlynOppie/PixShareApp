@@ -23,6 +23,7 @@ import java.util.*;
 @Transactional
 @Component("ImageService")
 public class ImageServiceImpl implements ImageService {
+
     private final AmazonS3 s3;
     private String bucketName = BucketName.IMAGE.getBucketName();
     private final ImageRepository imageRepository;
@@ -60,14 +61,19 @@ public class ImageServiceImpl implements ImageService {
     }
 
     @Override
-    public String deleteImage(String imgName, Integer userID) {
-        String path = String.format("%s/%s", bucketName, userID);
-        String imgLink = path + "/" + imgName;
-        String imgKey = userID + "/" + imgName;
-        s3.deleteObject(bucketName, imgKey);
-        imageRepository.deleteById(imgLink);
-        return imgName + " has been permanently deleted";
-        //    remove user access (shared images)
+    public String deleteImage(String imgName, Integer userID) throws Exception {
+        try{
+            String path = String.format("%s/%s", bucketName, userID);
+            String imgLink = path + "/" + imgName;
+            String imgKey = userID + "/" + imgName;
+            s3.deleteObject(bucketName, imgKey);
+            imageRepository.deleteById(imgLink);
+            return imgName + " has been permanently deleted";
+            //    remove user access (shared images)
+        }catch (Exception e){
+            throw new Exception("Image could not be deleted",e);
+        }
+
     }
 
 
