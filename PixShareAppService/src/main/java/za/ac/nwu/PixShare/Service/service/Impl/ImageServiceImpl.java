@@ -42,14 +42,13 @@ public class ImageServiceImpl implements ImageService {
         metadata.put("Content-Length", String.valueOf(image.getSize()));
         ObjectMetadata objectMetadata = mapMetadata(Optional.of(metadata));
 
-        File newImage = convertMultiPartFile(image);
         String path = String.format("%s/%s", bucketName, userID);
         String imgLink = path + "/" + image.getOriginalFilename();
         String imgName = image.getOriginalFilename();
-        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
         Date today = Calendar.getInstance().getTime();
         String imgDate = dateFormat .format(today);
-        double imgSize = Math.round(image.getSize()/100)/10.0; //Divide by 1000 to get KB size
+        double imgSize = Math.round(image.getSize()/100)/10.0;
 
         try{
             s3.putObject(path, imgName, image.getInputStream(), objectMetadata);
@@ -57,14 +56,8 @@ public class ImageServiceImpl implements ImageService {
         }catch(IOException e) {
             throw new IllegalStateException(e);
         }
-
-//        s3.putObject(new PutObjectRequest(bucketName, imgLink, newImage));
-
-        newImage.delete();
         return "Image :" + imgName + " uploaded to AWS";
     }
-
-//   upload metadata ---> still to implement
 
     @Override
     public String deleteImage(String imgName, Integer userID) {
@@ -74,11 +67,11 @@ public class ImageServiceImpl implements ImageService {
         s3.deleteObject(bucketName, imgKey);
         imageRepository.deleteById(imgLink);
         return imgName + " has been permanently deleted";
+        //    remove user access (shared images)
     }
 
-//    delete metadata ---> still to implement
 
-//    remove user access (shared images)
+
 
 //    View image
 
@@ -86,7 +79,6 @@ public class ImageServiceImpl implements ImageService {
     @Override
     public ByteArrayOutputStream downloadImage(String imgName, Integer userID) throws IOException {
         try {
-//            String path = String.format("%s/%s", bucketName, userID);
             String imgKey = userID + "/" + imgName;
             S3Object image = s3.getObject(new GetObjectRequest(bucketName, imgKey));
             InputStream inputStream = image.getObjectContent();
@@ -117,16 +109,6 @@ public class ImageServiceImpl implements ImageService {
         }
     }
 
-    private File convertMultiPartFile(MultipartFile file) throws IOException {
-        File newFile = new File(file.getOriginalFilename());
-        try (FileOutputStream fileOutputStream = new FileOutputStream(newFile)) {
-            fileOutputStream.write(file.getBytes());
-        } catch (IOException e) {
-            throw new IOException("Error converting multipart file to file", e);
-        }
-        return newFile;
-    }
-
     private ObjectMetadata mapMetadata(Optional<Map<String, String>> optionalMetadata){
         ObjectMetadata metadata = new ObjectMetadata();
         optionalMetadata.ifPresent(map -> {
@@ -136,4 +118,22 @@ public class ImageServiceImpl implements ImageService {
         });
         return metadata;
     }
+
+//    UPDATE image metadata (only name and date)
+//    @Override
+//    public String updateMetadata(Integer userID, String oldName, String newName){
+//        try{
+//            String path = String.format("%s/%s", bucketName, userID);
+//            String oldLink = path + "/" + oldName;
+//            String newLink = path + "/" + newName;
+//            DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+//            Date today = Calendar.getInstance().getTime();
+//            String imgDate = dateFormat .format(today);
+//            imageRepository.updateMetadata(oldLink,newLink,newName, imgDate);
+//            return "Metadata has been updated successfully";
+//        }catch (Exception e){
+//            throw new IllegalStateException("Metadata could not be updated");
+//        }
+//    }
+
 }

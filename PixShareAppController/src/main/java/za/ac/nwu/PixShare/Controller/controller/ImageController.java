@@ -55,6 +55,29 @@ public class ImageController {
 
 //    View Image
 
+
+//    @PutMapping("/customers/{id}")
+//public ResponseEntity<Customer> updateCustomer(@RequestBody Customer customer) {
+//
+//	try {
+//		return new ResponseEntity<Customer>(customerRepo.save(customer), HttpStatus.OK);
+//	} catch (Exception e) {
+//		return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+//	}
+//}
+
+//    @PutMapping(
+//            path = "/updateMetadata/{imgOldName}/{imgNewName}/{userID}")
+//    @ApiOperation(value = "Updates image metadata.", notes = "Updates image metadata.")
+//    @ApiResponses(value = {
+//            @ApiResponse(code = 200, message = "Image metadata updated", response = Response.class),
+//            @ApiResponse(code = 400, message = "Bad Request", response = Response.class),
+//            @ApiResponse(code = 404, message = "Not Found", response = Response.class)
+//    })
+//    public ResponseEntity<String> updateMetadata(@PathVariable String imgOldName, @PathVariable String imgNewName, @PathVariable Integer userID){
+//        return new ResponseEntity<>(imageService.updateMetadata(userID,imgOldName,imgNewName), HttpStatus.OK);
+//    }
+
     //    DOWNLOAD IMAGE
     @GetMapping(
             path = "/download/{imgName}/{userID}")

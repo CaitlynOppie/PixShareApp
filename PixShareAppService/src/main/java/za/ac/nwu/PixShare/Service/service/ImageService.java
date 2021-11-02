@@ -12,4 +12,6 @@ public interface ImageService {
     String deleteImage(String imgName, Integer userID);
 
     ByteArrayOutputStream downloadImage(String imgName, Integer userID) throws IOException;
+
+//    String updateMetadata(Integer userID, String oldName, String newName);
 }
