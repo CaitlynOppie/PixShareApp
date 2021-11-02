@@ -5,5 +5,5 @@ import org.springframework.stereotype.Repository;
 import za.ac.nwu.PixShare.Domain.persistence.Image;
 
 @Repository
-public interface ImageRepository extends JpaRepository<Image, Integer> {
+public interface ImageRepository extends JpaRepository<Image, String> {
 }
