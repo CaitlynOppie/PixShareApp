@@ -49,7 +49,7 @@ public class ImageServiceImpl implements ImageService {
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         Date today = Calendar.getInstance().getTime();
         String imgDate = dateFormat .format(today);
-        double imgSize = image.getSize();
+        double imgSize = Math.round(image.getSize()/100)/10.0; //Divide by 1000 to get KB size
 
         try{
             s3.putObject(path, imgName, image.getInputStream(), objectMetadata);
