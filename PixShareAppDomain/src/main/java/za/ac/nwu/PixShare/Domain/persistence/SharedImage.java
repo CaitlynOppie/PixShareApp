@@ -19,9 +19,9 @@ public class SharedImage {
     private User userID;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "IMAGE_ID")
+    @JoinColumn(name = "LINK")
     @JsonBackReference
-    private Image imageID;
+    private Image link;
 
     public SharedImage() {
     }
@@ -30,16 +30,16 @@ public class SharedImage {
         this.sharedImageID = sharedImageID;
     }
 
-    public SharedImage(Integer sharedImageID, User userID, Image imageID) {
+    public SharedImage(Integer sharedImageID, User userID, Image link) {
         this.sharedImageID = sharedImageID;
         this.userID = userID;
-        this.imageID = imageID;
+        this.link = link;
     }
 
-    public SharedImage(Integer sharedImageID, Integer userID, Integer imageID) {
+    public SharedImage(Integer sharedImageID, Integer userID, String link) {
         this.sharedImageID = sharedImageID;
         this.userID = new User(userID);
-        this.imageID = new Image(imageID);
+        this.link = new Image(link);
     }
 
     public Integer getSharedImageID() {
@@ -58,12 +58,12 @@ public class SharedImage {
         this.userID = userID;
     }
 
-    public Image getImageID() {
-        return imageID;
+    public Image getLink() {
+        return link;
     }
 
-    public void setImageID(Image imageID) {
-        this.imageID = imageID;
+    public void setLink(Image link) {
+        this.link = link;
     }
 
     @Override
@@ -71,12 +71,12 @@ public class SharedImage {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         SharedImage that = (SharedImage) o;
-        return Objects.equals(sharedImageID, that.sharedImageID) && Objects.equals(userID, that.userID) && Objects.equals(imageID, that.imageID);
+        return Objects.equals(sharedImageID, that.sharedImageID) && Objects.equals(userID, that.userID) && Objects.equals(link, that.link);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(sharedImageID, userID, imageID);
+        return Objects.hash(sharedImageID, userID, link);
     }
 
     @Override
@@ -84,7 +84,7 @@ public class SharedImage {
         return "SharedImage{" +
                 "sharedImageID=" + sharedImageID +
                 ", userID=" + userID +
-                ", imageID=" + imageID +
+                ", link=" + link +
                 '}';
     }
 }

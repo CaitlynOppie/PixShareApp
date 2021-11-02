@@ -25,10 +25,9 @@
 
     <modules>
         <module>PixShareAppDomain</module>
-        <module>PixShareAppLogic</module>
+        <module>PixShareAppService</module>
         <module>PixShareAppRepository</module>
-        <module>PixShareAppTranslator</module>
-        <module>PixShareAppPresentation</module>
+        <module>PixShareAppController</module>
     </modules>
 
     <dependencyManagement>

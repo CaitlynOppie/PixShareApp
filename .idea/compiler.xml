@@ -7,14 +7,16 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="PixShareAppDomain" />
-        <module name="PixShareAppLogic" />
         <module name="PixShareAppRepository" />
-        <module name="PixShareAppTranslator" />
-        <module name="PixShareAppPresentation" />
+        <module name="PixShareAppService" />
+        <module name="PixShareAppController" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="PixShareAppAWS" target="8" />
+      <module name="PixShareAppLogic" target="8" />
+      <module name="PixShareAppPresentation" target="8" />
+      <module name="PixShareAppTranslator" target="8" />
       <module name="PixShareAWS" target="8" />
       <module name="PixShareDomain" target="8" />
       <module name="PixShareLogic" target="8" />
@@ -27,10 +29,12 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="PixShareAWS" options="-parameters" />
       <module name="PixShareAppAWS" options="-parameters" />
+      <module name="PixShareAppController" options="-parameters" />
       <module name="PixShareAppDomain" options="-parameters" />
       <module name="PixShareAppLogic" options="-parameters" />
       <module name="PixShareAppPresentation" options="-parameters" />
       <module name="PixShareAppRepository" options="-parameters" />
+      <module name="PixShareAppService" options="-parameters" />
       <module name="PixShareAppTranslator" options="-parameters" />
       <module name="PixShareDomain" options="-parameters" />
       <module name="PixShareLogic" options="-parameters" />

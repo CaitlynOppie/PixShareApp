@@ -12,7 +12,7 @@ public class SharedImageDTO {
 
     private Integer sharedImageID;
     private Integer userID;
-    private Integer imageID;
+    private String link;
 
     public SharedImageDTO() {
     }
@@ -21,10 +21,10 @@ public class SharedImageDTO {
         this.sharedImageID = sharedImageID;
     }
 
-    public SharedImageDTO(Integer sharedImageID, Integer userID, Integer imageID) {
+    public SharedImageDTO(Integer sharedImageID, Integer userID, String link) {
         this.sharedImageID = sharedImageID;
         this.userID = userID;
-        this.imageID = imageID;
+        this.link = link;
     }
 
     public SharedImageDTO(SharedImage sharedImage) {
@@ -32,8 +32,8 @@ public class SharedImageDTO {
         if (null != sharedImage.getUserID()){
             this.userID = sharedImage.getUserID().getUserID();
         }
-        if (null != sharedImage.getImageID()){
-            this.imageID = sharedImage.getImageID().getImageID();
+        if (null != sharedImage.getLink()){
+            this.link = sharedImage.getLink().getLink();
         }
     }
 
@@ -42,8 +42,8 @@ public class SharedImageDTO {
         if (null != sharedImageDto.getUserID()){
             this.userID = sharedImageDto.getUserID();
         }
-        if (null != sharedImageDto.getImageID()){
-            this.imageID = sharedImageDto.getImageID();
+        if (null != sharedImageDto.getLink()){
+            this.link = sharedImageDto.getLink();
         }
     }
 
@@ -79,23 +79,23 @@ public class SharedImageDTO {
             example = "01",
             required = true)
 
-    public Integer getImageID() {
-        return imageID;
+    public String getLink() {
+        return link;
     }
 
-    public void setImageID(Integer imageID) {
-        this.imageID = imageID;
+    public void setLink(String imageID) {
+        this.link = link;
     }
 
 
     @JsonIgnore
     public SharedImage getSharedImage(){
-        return new SharedImage(getSharedImageID(), getUserID(), getImageID());
+        return new SharedImage(getSharedImageID(), getUserID(), getLink());
     }
 
     @JsonIgnore
     public SharedImageDTO getSharedImageDTO(){
-        return new SharedImageDTO(getSharedImageID(), getUserID(), getImageID());
+        return new SharedImageDTO(getSharedImageID(), getUserID(), getLink());
     }
 
     @JsonIgnore
@@ -108,12 +108,12 @@ public class SharedImageDTO {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         SharedImageDTO that = (SharedImageDTO) o;
-        return Objects.equals(sharedImageID, that.sharedImageID) && Objects.equals(userID, that.userID) && Objects.equals(imageID, that.imageID);
+        return Objects.equals(sharedImageID, that.sharedImageID) && Objects.equals(userID, that.userID) && Objects.equals(link, that.link);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(sharedImageID, userID, imageID);
+        return Objects.hash(sharedImageID, userID, link);
     }
 
     @Override
@@ -121,7 +121,7 @@ public class SharedImageDTO {
         return "SharedImageDTO{" +
                 "sharedImageID=" + sharedImageID +
                 ", userID=" + userID +
-                ", imageID=" + imageID +
+                ", link=" + link +
                 '}';
     }
 }

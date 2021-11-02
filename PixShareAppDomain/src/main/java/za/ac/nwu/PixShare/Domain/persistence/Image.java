@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.util.Objects;
 import java.util.Set;
 
@@ -13,10 +12,6 @@ import java.util.Set;
 public class Image {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "IMAGE_ID")
-    private Integer imageID;
-
     @Column(name = "IMAGE_LINK")
     private String link;
 
@@ -26,9 +21,6 @@ public class Image {
     @Column(name = "IMAGE_SIZE")
     private double size;
 
-    @Column(name = "IMAGE_LOCATION")
-    private String location;
-
     @Column(name = "IMAGE_DATE")
     private String date;
 
@@ -37,46 +29,31 @@ public class Image {
     @JsonBackReference
     private User userID;
 
-    @OneToMany(targetEntity = SharedImage.class, fetch = FetchType.LAZY, mappedBy = "userID")
+    @OneToMany(targetEntity = SharedImage.class, fetch = FetchType.LAZY, mappedBy = "link")
     @JsonManagedReference
     private Set<SharedImage> sharedImage;
 
     public Image() {
     }
 
-    public Image(Integer imageID) {
-        this.imageID = imageID;
+    public Image(String link) {
+        this.link = link;
     }
 
-    public Image(Integer imageID, String link, String name, double size, String location, String date, User userID) {
-        this.imageID = imageID;
+    public Image(String link, String name, double size, String date, Integer userID) {
         this.link = link;
         this.name = name;
         this.size = size;
-        this.location = location;
-        this.date = date;
-        this.userID = userID;
-    }
-
-    public Image(Integer imageID, String link, String name, double size, String location, String date, Integer userID) {
-        this.imageID = imageID;
-        this.link = link;
-        this.name = name;
-        this.size = size;
-        this.location = location;
         this.date = date;
         this.userID = new User(userID);
     }
 
-    public Integer getImageID() {
-        return imageID;
+    public Image(String link, User userID) {
+        this.link = link;
+        this.userID = userID;
     }
 
-    public void setImageID(Integer imageID) {
-        this.imageID = imageID;
-    }
-
-    public String getlink() {
+    public String getLink() {
         return link;
     }
 
@@ -100,14 +77,6 @@ public class Image {
         this.size = size;
     }
 
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
-    }
-
     public String getDate() {
         return date;
     }
@@ -129,22 +98,20 @@ public class Image {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Image image = (Image) o;
-        return Objects.equals(imageID, image.imageID) && Objects.equals(link, image.link) && Objects.equals(name, image.name) && Objects.equals(size, image.size) && Objects.equals(location, image.location) && Objects.equals(date, image.date) && Objects.equals(userID, image.userID);
+        return  Objects.equals(link, image.link) && Objects.equals(name, image.name) && Objects.equals(size, image.size) && Objects.equals(date, image.date) && Objects.equals(userID, image.userID);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(imageID, link, name, size, location, date, userID);
+        return Objects.hash(link, name, size, date, userID);
     }
 
     @Override
     public String toString() {
         return "Image{" +
-                "imageID=" + imageID +
                 ", link='" + link + '\'' +
                 ", name='" + name + '\'' +
                 ", size='" + size + '\'' +
-                ", location='" + location + '\'' +
                 ", date=" + date +
                 ", userID=" + userID +
                 '}';
