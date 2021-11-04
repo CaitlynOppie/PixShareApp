@@ -14,9 +14,14 @@ public class SharedImage {
     private Integer sharedImageID;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "USER_ID")
+    @JoinColumn(name = "USER_ID_SHARER")
     @JsonBackReference
-    private User userID;
+    private User userIDSharer;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "USER_ID_SHARED")
+    @JsonBackReference
+    private User userIDShared;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "LINK")
@@ -30,15 +35,17 @@ public class SharedImage {
         this.sharedImageID = sharedImageID;
     }
 
-    public SharedImage(Integer sharedImageID, User userID, Image link) {
+    public SharedImage(Integer sharedImageID, User userIDShared, User userIDSharer, Image link) {
         this.sharedImageID = sharedImageID;
-        this.userID = userID;
+        this.userIDShared = userIDShared;
+        this.userIDSharer = userIDSharer;
         this.link = link;
     }
 
-    public SharedImage(Integer sharedImageID, Integer userID, String link) {
+    public SharedImage(Integer sharedImageID, Integer userIDShared, Integer userIDSharer, String link) {
         this.sharedImageID = sharedImageID;
-        this.userID = new User(userID);
+        this.userIDShared = new User(userIDShared);
+        this.userIDSharer = new User(userIDSharer);
         this.link = new Image(link);
     }
 
@@ -50,12 +57,20 @@ public class SharedImage {
         this.sharedImageID = sharedImageID;
     }
 
-    public User getUserID() {
-        return userID;
+    public User getUserIDSharer() {
+        return userIDSharer;
     }
 
-    public void setUserID(User userID) {
-        this.userID = userID;
+    public void setUserIDSharer(User userIDSharer) {
+        this.userIDSharer = userIDSharer;
+    }
+
+    public User getUserIDShared() {
+        return userIDShared;
+    }
+
+    public void setUserIDShared(User userIDShared) {
+        this.userIDShared = userIDShared;
     }
 
     public Image getLink() {
@@ -71,21 +86,24 @@ public class SharedImage {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         SharedImage that = (SharedImage) o;
-        return Objects.equals(sharedImageID, that.sharedImageID) && Objects.equals(userID, that.userID) && Objects.equals(link, that.link);
+        return Objects.equals(sharedImageID, that.sharedImageID) && Objects.equals(userIDSharer, that.userIDSharer) && Objects.equals(userIDShared, that.userIDShared) && Objects.equals(link, that.link);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(sharedImageID, userID, link);
+        return Objects.hash(sharedImageID, userIDSharer, userIDShared, link);
     }
 
     @Override
     public String toString() {
         return "SharedImage{" +
                 "sharedImageID=" + sharedImageID +
-                ", userID=" + userID +
+                ", userIDSharer=" + userIDSharer +
+                ", userIDShared=" + userIDShared +
                 ", link=" + link +
                 '}';
     }
 }
+
+
 

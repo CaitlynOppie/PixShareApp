@@ -1,7 +1,7 @@
 # Project exclude paths
-/PixShareAppAWS/target/
 /PixShareAppDomain/target/
-/PixShareAppLogic/target/
-/PixShareAppPresentation/target/
+/PixShareAppController/target/
 /PixShareAppRepository/target/
-/PixShareAppTranslator/target/
+/PixShareAppService/target/
+/PixShareAppRepository/src/main/resources/application-db.properties
+/PixShareAppService/src/main/java/za/ac/nwu/PixShare/Service/config/AWSconfig.java
