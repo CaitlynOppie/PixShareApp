@@ -22,6 +22,13 @@ public class UserController {
         this.userService = userService;
     }
 
+    @GetMapping(
+            path = "/login"
+    )
+    public String login() {
+        return "login";
+    }
+
     @PostMapping(
             path = "/user/add"
     )
@@ -35,12 +42,7 @@ public class UserController {
         return new ResponseEntity<>(userService.addUser(userDTO), HttpStatus.OK);
     }
 
-//    @GetMapping(
-//            path = "/"
-//    )
-//    public String login() {
-//        return "User logged in";
-//    }
+
 
     @DeleteMapping(
             path = "/user/delete/{userID}")
