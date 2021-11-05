@@ -1,5 +1,8 @@
 package za.ac.nwu.PixShare.Service.service.Impl;
 
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import com.amazonaws.AmazonClientException;
 import com.amazonaws.AmazonServiceException;
 import com.amazonaws.services.s3.AmazonS3;
@@ -24,6 +27,8 @@ import java.util.*;
 @Component("ImageService")
 public class ImageServiceImpl implements ImageService {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(ImageServiceImpl.class);
+
     private final AmazonS3 s3;
     private String bucketName = BucketName.IMAGE.getBucketName();
     private final ImageRepository imageRepository;
@@ -38,6 +43,7 @@ public class ImageServiceImpl implements ImageService {
     @Override
     public String uploadImage(MultipartFile image, Integer userID) throws IOException {
 
+        LOGGER.info("The input image is {} and the userID is {}", image, userID);
         Map<String, String> metadata = new HashMap<>();
         metadata.put("Content-Type", image.getContentType());
         metadata.put("Content-Length", String.valueOf(image.getSize()));
@@ -51,6 +57,11 @@ public class ImageServiceImpl implements ImageService {
         String imgDate = dateFormat .format(today);
         double imgSize = Math.round(image.getSize()/100)/10.0;
 
+        LOGGER.info("The image path is {} ", path);
+        LOGGER.info("The image link is {} ", imgLink);
+        LOGGER.info("The image name is {} ", imgName);
+        LOGGER.info("The image date is {} ", imgDate);
+        LOGGER.info("The image size is {} ", imgSize);
         try{
             s3.putObject(path, imgName, image.getInputStream(), objectMetadata);
             imageRepository.save(new Image(imgLink, imgName, imgSize, imgDate, userID));
@@ -63,9 +74,13 @@ public class ImageServiceImpl implements ImageService {
     @Override
     public String deleteImage(String imgName, Integer userID) throws Exception {
         try{
+            LOGGER.info("The image name is {} and the userID is {} ", imgName, userID);
             String path = String.format("%s/%s", bucketName, userID);
             String imgLink = path + "/" + imgName;
             String imgKey = userID + "/" + imgName;
+            LOGGER.info("The image path is {} ", path);
+            LOGGER.info("The image link is {} ", imgLink);
+            LOGGER.info("The image key is {} ", imgKey);
             s3.deleteObject(bucketName, imgKey);
             imageRepository.deleteById(imgLink);
             return imgName + " has been permanently deleted";
@@ -85,6 +100,7 @@ public class ImageServiceImpl implements ImageService {
     @Override
     public ByteArrayOutputStream downloadImage(String imgName, Integer userID) throws IOException {
         try {
+            LOGGER.info("The image name is {} and the userID is {} ", imgName, userID);
             String imgKey = userID + "/" + imgName;
             S3Object image = s3.getObject(new GetObjectRequest(bucketName, imgKey));
             InputStream inputStream = image.getObjectContent();
@@ -96,21 +112,10 @@ public class ImageServiceImpl implements ImageService {
             }
             return byteArrayOutputStream;
         } catch (IOException ioe) {
-//            logger.error("IOException: " + ioe.getMessage());
             throw new IOException(ioe.getMessage());
         } catch (AmazonServiceException ase) {
-//            logger.info("sCaught an AmazonServiceException from GET requests, rejected reasons:");
-//            logger.info("Error Message:    " + ase.getMessage());
-//            logger.info("HTTP Status Code: " + ase.getStatusCode());
-//            logger.info("AWS Error Code:   " + ase.getErrorCode());
-//            logger.info("Error Type:       " + ase.getErrorType());
-//            logger.info("Request ID:       " + ase.getRequestId());
-//            throw ase;
             throw new AmazonServiceException(ase.getMessage());
         } catch (AmazonClientException ace) {
-//            logger.info("Caught an AmazonClientException: ");
-//            logger.info("Error Message: " + ace.getMessage());
-//            throw ace;
             throw new AmazonClientException(ace.getMessage());
         }
     }

@@ -49,6 +49,12 @@ public class SharedImage {
         this.link = new Image(link);
     }
 
+    public SharedImage(Integer userIDShared, Integer userIDSharer, String link) {
+        this.userIDShared = new User(userIDShared);
+        this.userIDSharer = new User(userIDSharer);
+        this.link = new Image(link);
+    }
+
     public Integer getSharedImageID() {
         return sharedImageID;
     }
