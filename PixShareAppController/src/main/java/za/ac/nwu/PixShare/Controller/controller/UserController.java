@@ -12,7 +12,7 @@ import za.ac.nwu.PixShare.Domain.service.Response;
 import za.ac.nwu.PixShare.Service.service.UserService;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("")
 public class UserController {
 
     private UserService userService;
@@ -23,7 +23,7 @@ public class UserController {
     }
 
     @PostMapping(
-            path = "/add"
+            path = "/user/add"
     )
     @ApiOperation(value = "Adds new user to the system.", notes = "Adds new user to the system.")
     @ApiResponses(value = {
@@ -35,10 +35,34 @@ public class UserController {
         return new ResponseEntity<>(userService.addUser(userDTO), HttpStatus.OK);
     }
 
-    @GetMapping(
-            path = "/"
-    )
-    public String login() {
-        return "User logged in";
+//    @GetMapping(
+//            path = "/"
+//    )
+//    public String login() {
+//        return "User logged in";
+//    }
+
+    @DeleteMapping(
+            path = "/user/delete/{userID}")
+    @ApiOperation(value = "Deletes the users profile.", notes = "Deletes user profile.")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "User profile was deleted", response = Response.class),
+            @ApiResponse(code = 400, message = "Bad Request", response = Response.class),
+            @ApiResponse(code = 404, message = "Not Found", response = Response.class)
+    })
+    public ResponseEntity<String> deleteUser(@PathVariable Integer userID) throws Exception {
+        return new ResponseEntity<>(userService.deleteUser(userID), HttpStatus.OK);
+    }
+
+    @PutMapping(
+            path = "/user/changePassword/{email}/{password}")
+    @ApiOperation(value = "Changes the password for the user's profile.", notes = "Changes the password for the user's profile.")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Password changed", response = Response.class),
+            @ApiResponse(code = 400, message = "Bad Request", response = Response.class),
+            @ApiResponse(code = 404, message = "Not Found", response = Response.class)
+    })
+    public ResponseEntity<String> changePassword(@PathVariable String email, @PathVariable String password) throws Exception {
+        return new ResponseEntity<>(userService.changePassword(email,password), HttpStatus.OK);
     }
 }

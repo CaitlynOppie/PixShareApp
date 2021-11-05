@@ -31,9 +31,14 @@ public class User {
     @JsonManagedReference
     private Set<Image> image;
 
-    @OneToMany(targetEntity = SharedImage.class, fetch = FetchType.LAZY, mappedBy = "userID")
+
+    @OneToMany(targetEntity = SharedImage.class, fetch = FetchType.LAZY, mappedBy = "userIDShared")
     @JsonManagedReference
-    private Set<SharedImage> sharedImage;
+    private Set<SharedImage> sharedImageShared;
+
+    @OneToMany(targetEntity = SharedImage.class, fetch = FetchType.LAZY, mappedBy = "userIDSharer")
+    @JsonManagedReference
+    private Set<SharedImage> sharedImageSharer;
 
     public User() {
     }

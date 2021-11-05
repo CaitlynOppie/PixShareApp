@@ -1,14 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="pixsharedb" uuid="f9f5a564-98b5-46d8-9b71-d580fa3302c3">
-      <driver-ref>mysql.8</driver-ref>
-      <synchronize>true</synchronize>
-      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://pixsharedb.czoisfxi5lk4.us-east-1.rds.amazonaws.com:3306</jdbc-url>
-      <working-dir>$ProjectFileDir$</working-dir>
-    </data-source>
-    <data-source source="LOCAL" name="PixShareAppService/Hibernate" uuid="e389e55f-1875-4e60-85cd-02f189de39ba">
+    <data-source source="LOCAL" name="PixShareAppRepository/Hibernate" uuid="6a78a512-d0fe-4d32-b2bb-3e517cfaba52">
       <driver-ref>mysql.8</driver-ref>
       <synchronize>true</synchronize>
       <imported>true</imported>
@@ -17,7 +10,14 @@
       <jdbc-url>jdbc:mysql://pixsharedb.czoisfxi5lk4.us-east-1.rds.amazonaws.com:3306/pixsharedb</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
-    <data-source source="LOCAL" name="PixShareAppRepository/Hibernate" uuid="6a78a512-d0fe-4d32-b2bb-3e517cfaba52">
+    <data-source source="LOCAL" name="pixsharedb" uuid="37ab1a7f-4cc5-4c4c-a73d-08bad3b4a2e0">
+      <driver-ref>mysql.8</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mysql://pixsharedb.czoisfxi5lk4.us-east-1.rds.amazonaws.com:3306</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
+    <data-source source="LOCAL" name="PixShareAppService/Hibernate" uuid="93061b0d-1f1a-42ff-9c45-acc07efff86b">
       <driver-ref>mysql.8</driver-ref>
       <synchronize>true</synchronize>
       <imported>true</imported>

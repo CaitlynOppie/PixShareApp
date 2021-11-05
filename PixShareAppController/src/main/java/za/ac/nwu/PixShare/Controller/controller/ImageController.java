@@ -17,7 +17,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 @RestController
-@RequestMapping("/image")
+@RequestMapping("")
 public class ImageController {
 
     private final ImageService imageService;
@@ -29,7 +29,7 @@ public class ImageController {
 
 //  UPLOAD IMAGE
     @PostMapping(
-            path = "/upload/{userID}",
+            path = "/image/upload/{userID}",
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Uploads new image.", notes = "Uploads a new Image to AWS.")
@@ -44,7 +44,7 @@ public class ImageController {
 
 //  DELETE IMAGE
     @DeleteMapping(
-            path = "/delete/{imgName}/{userID}")
+            path = "/image/delete/{imgName}/{userID}")
     @ApiOperation(value = "Deletes image.", notes = "Deletes image from AWS.")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Image was deleted", response = Response.class),
@@ -59,7 +59,7 @@ public class ImageController {
 
 //    UPDATE IMAGE METADATA
 //    @PutMapping(
-//            path = "/updateMetadata/{imgOldName}/{imgNewName}/{userID}")
+//            path = "/image/updateMetadata/{imgOldName}/{imgNewName}/{userID}")
 //    @ApiOperation(value = "Updates image metadata.", notes = "Updates image metadata.")
 //    @ApiResponses(value = {
 //            @ApiResponse(code = 200, message = "Image metadata updated", response = Response.class),
@@ -72,7 +72,7 @@ public class ImageController {
 
 //  DOWNLOAD IMAGE
     @GetMapping(
-            path = "/download/{imgName}/{userID}")
+            path = "/image/download/{imgName}/{userID}")
     @ApiOperation(value = "Downloads image to user's PC.", notes = "Downloads image from AWS to user's PC.")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Image downloaded", response = Response.class),
