@@ -1,12 +1,13 @@
 import React from 'react';
+import {Link} from 'react-router-dom';
 
-import {Navbar, Nav, Container} from 'react-bootstrap'
+import {Navbar, Nav} from 'react-bootstrap'
 
-class NavigationBar extends React.Component{
+export default class NavigationBar extends React.Component{
     render(){
         return(
             <Navbar bg="dark" variant="dark">
-                <Navbar.Brand href="/">
+                <Link to={""} className="navbar-brand">
                     <img
                         src="https://upload.wikimedia.org/wikipedia/commons/2/2e/Camera_Flat_Icon_Vector.svg"
                         width="40"
@@ -14,15 +15,14 @@ class NavigationBar extends React.Component{
                         alt="brand"
                     />{" "}
                     PixShare
-                </Navbar.Brand>
+                </Link>
                 <Nav className="mr-auto">
-                    <Nav.Link href="#">Add Image</Nav.Link>
-                    <Nav.Link href="#">Shared Images</Nav.Link>
-                    <Nav.Link href="#">Log out</Nav.Link>
+                    <Link to={"MyImages"} className="nav-link">My Images</Link>
+                    <Link to={"SharedImages"} className="nav-link">Shared Images</Link>
+                    {/*<Link href="#">Log out</Link>*/}
                 </Nav>
             </Navbar>
         );
     }
 }
 
-export default NavigationBar;
