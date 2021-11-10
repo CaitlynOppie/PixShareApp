@@ -6,7 +6,7 @@ export default class SharedImages extends React.Component{
     render(){
         return(
             <Card className={"border border-dark bg-dark text-white"}>
-                <Card.Header>My Images</Card.Header>
+                <Card.Header>Shared Images</Card.Header>
                 <Card.Body>
                     <Container>
                         <Row>

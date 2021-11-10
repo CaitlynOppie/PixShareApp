@@ -15,9 +15,12 @@ import za.ac.nwu.PixShare.Service.service.ImageService;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("")
+@CrossOrigin(origins = "http://localhost:3000" )
 public class ImageController {
 
     private final ImageService imageService;
@@ -29,7 +32,7 @@ public class ImageController {
 
 //  UPLOAD IMAGE
     @PostMapping(
-            path = "/image/upload/{userID}",
+            path = "/image/upload",
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Uploads new image.", notes = "Uploads a new Image to AWS.")
@@ -38,7 +41,7 @@ public class ImageController {
             @ApiResponse(code = 400, message = "Bad Request", response = Response.class),
             @ApiResponse(code = 404, message = "Not Found", response = Response.class)
     })
-    public ResponseEntity<String> uploadImage(@PathVariable("userID") Integer userID, @RequestParam("file") MultipartFile file) throws IOException {
+    public ResponseEntity<String> uploadImage(@RequestParam("userID") Integer userID, @RequestParam("file") MultipartFile file) throws IOException {
         return new ResponseEntity<>(imageService.uploadImage(file, userID), HttpStatus.OK);
     }
 
@@ -88,6 +91,47 @@ public class ImageController {
                 .body(byteArrayOutputStream.toByteArray());
     }
 
+
+    @GetMapping(
+            path = "/image/view/{imgName}/{userID}")
+    @ApiOperation(value = "Views image of a user.", notes = "Views image of a user")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Image viewed", response = Response.class),
+            @ApiResponse(code = 400, message = "Bad Request", response = Response.class),
+            @ApiResponse(code = 404, message = "Not Found", response = Response.class)
+    })
+    public ResponseEntity<byte[]> viewImage(@PathVariable String imgName, @PathVariable Integer userID) throws IOException {
+        ByteArrayOutputStream byteArrayOutputStream = imageService.downloadImage(imgName, userID);
+
+        return ResponseEntity.ok()
+                .contentType(contentType(imgName))
+                .body(byteArrayOutputStream.toByteArray());
+    }
+
+    @GetMapping(
+            path = "/image/viewAll/{userID}")
+    @ApiOperation(value = "Views all images of a user.", notes = "Views all images of a user")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Images views", response = Response.class),
+            @ApiResponse(code = 400, message = "Bad Request", response = Response.class),
+            @ApiResponse(code = 404, message = "Not Found", response = Response.class)
+    })
+    public List<ResponseEntity<byte[]>> viewAllImage(@PathVariable Integer userID) throws Exception {
+        List<String> names = imageService.listAllImages(userID);
+        List<ResponseEntity<byte[]>> response = new ArrayList<>();
+        for(String name: names)
+        {
+            ByteArrayOutputStream byteArrayOutputStream = imageService.downloadImage(name, userID);
+
+            response.add(ResponseEntity.ok()
+                    .contentType(contentType(name))
+                    .body(byteArrayOutputStream.toByteArray()));
+        }
+        return response;
+    }
+
+
+
     private MediaType contentType(String imgName) {
         if(imgName.contains("png")){
             return MediaType.IMAGE_PNG;
@@ -98,5 +142,7 @@ public class ImageController {
             return MediaType.APPLICATION_OCTET_STREAM;
         }
     }
+
+
 }
 

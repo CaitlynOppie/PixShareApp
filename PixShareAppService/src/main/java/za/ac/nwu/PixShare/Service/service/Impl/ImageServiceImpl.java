@@ -1,14 +1,12 @@
 package za.ac.nwu.PixShare.Service.service.Impl;
 
 
+import com.amazonaws.services.s3.model.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.amazonaws.AmazonClientException;
 import com.amazonaws.AmazonServiceException;
 import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.model.GetObjectRequest;
-import com.amazonaws.services.s3.model.ObjectMetadata;
-import com.amazonaws.services.s3.model.S3Object;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import za.ac.nwu.PixShare.Domain.persistence.BucketName;
@@ -117,6 +115,24 @@ public class ImageServiceImpl implements ImageService {
             throw new AmazonServiceException(ase.getMessage());
         } catch (AmazonClientException ace) {
             throw new AmazonClientException(ace.getMessage());
+        }
+    }
+
+    @Override
+    public List<String> listAllImages(Integer userID) throws Exception {
+        try {
+            LOGGER.info("The userID is {} ", userID);
+            String prefix = userID + "/";
+            List<String> names = new ArrayList<>();
+            ListObjectsV2Request req = new ListObjectsV2Request().withBucketName(bucketName).withPrefix(prefix).withDelimiter("/");
+            ListObjectsV2Result listing = s3.listObjectsV2(req);
+            for (S3ObjectSummary summary: listing.getObjectSummaries()) {
+                names.add(summary.getKey());
+            }
+            return names;
+
+        } catch (Exception e) {
+            throw new Exception("Could not list all images");
         }
     }
 
