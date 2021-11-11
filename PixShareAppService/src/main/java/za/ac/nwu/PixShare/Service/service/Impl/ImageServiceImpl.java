@@ -9,8 +9,10 @@ import com.amazonaws.AmazonServiceException;
 import com.amazonaws.services.s3.AmazonS3;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import za.ac.nwu.PixShare.Domain.DTO.ImageDTO;
 import za.ac.nwu.PixShare.Domain.persistence.BucketName;
 import za.ac.nwu.PixShare.Domain.persistence.Image;
+import za.ac.nwu.PixShare.Domain.persistence.User;
 import za.ac.nwu.PixShare.Repo.persistence.ImageRepository;
 import org.springframework.web.multipart.MultipartFile;
 import za.ac.nwu.PixShare.Repo.persistence.SharedImageRepository;
@@ -65,7 +67,7 @@ public class ImageServiceImpl implements ImageService {
         LOGGER.info("The image size is {} ", imgSize);
         try{
             s3.putObject(path, imgName, image.getInputStream(), objectMetadata);
-            imageRepository.save(new Image(imgLink, imgName, imgSize, imgDate, userID));
+            imageRepository.save(new Image(imgDate, imgLink, imgName, imgSize,  userID));
         }catch(IOException e) {
             throw new IllegalStateException(e);
         }
@@ -134,6 +136,15 @@ public class ImageServiceImpl implements ImageService {
         }
     }
 
+    @Override
+    public List<ImageDTO> getAllUserImage(Integer userID) throws Exception {
+        try {
+            return imageRepository.findAllByUserID(new User(userID));
+        } catch (Exception e) {
+            throw new Exception("Could not get all user images");
+        }
+    }
+
     private ObjectMetadata mapMetadata(Optional<Map<String, String>> optionalMetadata){
         ObjectMetadata metadata = new ObjectMetadata();
         optionalMetadata.ifPresent(map -> {
@@ -143,22 +154,5 @@ public class ImageServiceImpl implements ImageService {
         });
         return metadata;
     }
-
-//    UPDATE image metadata (only name and date)
-//    @Override
-//    public String updateMetadata(Integer userID, String oldName, String newName){
-//        try{
-//            String path = String.format("%s/%s", bucketName, userID);
-//            String oldLink = path + "/" + oldName;
-//            String newLink = path + "/" + newName;
-//            DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
-//            Date today = Calendar.getInstance().getTime();
-//            String imgDate = dateFormat .format(today);
-//            imageRepository.updateMetadata(oldLink,newLink,newName, imgDate);
-//            return "Metadata has been updated successfully";
-//        }catch (Exception e){
-//            throw new IllegalStateException("Metadata could not be updated");
-//        }
-//    }
 
 }

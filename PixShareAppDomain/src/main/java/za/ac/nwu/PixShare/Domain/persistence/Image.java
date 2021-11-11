@@ -13,23 +13,23 @@ public class Image {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "IMAGE_ID")
+    @Column(name = "imageID")
     private Integer imageID;
 
-    @Column(name = "IMAGE_LINK")
+    @Column(name = "link")
     private String link;
 
-    @Column(name = "IMAGE_NAME")
+    @Column(name = "img_name")
     private String name;
 
-    @Column(name = "IMAGE_SIZE")
+    @Column(name = "size")
     private double size;
 
-    @Column(name = "IMAGE_DATE")
+    @Column(name = "img_date")
     private String date;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "USER_ID")
+    @JoinColumn(name = "userID")
     @JsonBackReference
     private User userID;
 
@@ -48,7 +48,7 @@ public class Image {
         this.imageID = imageID;
     }
 
-    public Image(String link, String name, double size, String date, Integer userID) {
+    public Image(String date, String link, String name, double size,  Integer userID) {
         this.link = link;
         this.name = name;
         this.size = size;

@@ -7,20 +7,22 @@ export default class NavigationBar extends React.Component{
     render(){
         return(
             <Navbar bg="dark" variant="dark">
-                <Link to={""} className="navbar-brand">
-                    <img
-                        src="https://upload.wikimedia.org/wikipedia/commons/2/2e/Camera_Flat_Icon_Vector.svg"
-                        width="40"
-                        height="40"
-                        alt="brand"
-                    />{" "}
-                    PixShare
-                </Link>
-                <Nav className="mr-auto">
-                    <Link to={"MyImages"} className="nav-link">My Images</Link>
-                    <Link to={"SharedImages"} className="nav-link">Shared Images</Link>
-                    {/*<Link href="#">Log out</Link>*/}
-                </Nav>
+                <Nav className="container-fluid">
+                    <Nav.Item>
+                        <Link to={""} className="navbar-brand">
+                            <img
+                                src="https://upload.wikimedia.org/wikipedia/commons/2/2e/Camera_Flat_Icon_Vector.svg"
+                                width="40"
+                                height="40"
+                                alt="brand"
+                            />{" "}
+                            PixShare
+                        </Link>
+                     </Nav.Item>
+                     <Nav.Item className="ml-auto">
+                         <Link href="#" className="nav-link">Log in</Link>
+                     </Nav.Item>
+                 </Nav>
             </Navbar>
         );
     }

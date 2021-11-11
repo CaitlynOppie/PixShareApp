@@ -1,6 +1,7 @@
 package za.ac.nwu.PixShare.Controller.controller;
 
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,11 +11,13 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import za.ac.nwu.PixShare.Domain.DTO.ImageDTO;
 import za.ac.nwu.PixShare.Domain.service.Response;
 import za.ac.nwu.PixShare.Service.service.ImageService;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,31 +61,18 @@ public class ImageController {
         return new ResponseEntity<>(imageService.deleteImage(imgName, userID), HttpStatus.OK);
     }
 
-//    View Image
-
-//    UPDATE IMAGE METADATA
-//    @PutMapping(
-//            path = "/image/updateMetadata/{imgOldName}/{imgNewName}/{userID}")
-//    @ApiOperation(value = "Updates image metadata.", notes = "Updates image metadata.")
-//    @ApiResponses(value = {
-//            @ApiResponse(code = 200, message = "Image metadata updated", response = Response.class),
-//            @ApiResponse(code = 400, message = "Bad Request", response = Response.class),
-//            @ApiResponse(code = 404, message = "Not Found", response = Response.class)
-//    })
-//    public ResponseEntity<String> updateMetadata(@PathVariable String imgOldName, @PathVariable String imgNewName, @PathVariable Integer userID){
-//        return new ResponseEntity<>(imageService.updateMetadata(userID,imgOldName,imgNewName), HttpStatus.OK);
-//    }
-
 //  DOWNLOAD IMAGE
     @GetMapping(
-            path = "/image/download/{imgName}/{userID}")
+            path = "/image/download/{userID}/{imgName}")
     @ApiOperation(value = "Downloads image to user's PC.", notes = "Downloads image from AWS to user's PC.")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Image downloaded", response = Response.class),
             @ApiResponse(code = 400, message = "Bad Request", response = Response.class),
             @ApiResponse(code = 404, message = "Not Found", response = Response.class)
     })
-    public ResponseEntity<byte[]> downloadImage(@PathVariable String imgName, @PathVariable Integer userID) throws IOException {
+    public ResponseEntity<byte[]> downloadImage(
+            @PathVariable Integer userID,
+            @PathVariable String imgName) throws IOException {
         ByteArrayOutputStream byteArrayOutputStream = imageService.downloadImage(imgName, userID);
 
         return ResponseEntity.ok()
@@ -92,15 +82,19 @@ public class ImageController {
     }
 
 
+
+
     @GetMapping(
-            path = "/image/view/{imgName}/{userID}")
+            path = "/image/view/{userID}/{imgName}")
     @ApiOperation(value = "Views image of a user.", notes = "Views image of a user")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Image viewed", response = Response.class),
             @ApiResponse(code = 400, message = "Bad Request", response = Response.class),
             @ApiResponse(code = 404, message = "Not Found", response = Response.class)
     })
-    public ResponseEntity<byte[]> viewImage(@PathVariable String imgName, @PathVariable Integer userID) throws IOException {
+    public ResponseEntity<byte[]> viewImage(
+            @PathVariable Integer userID,
+            @PathVariable String imgName) throws IOException {
         ByteArrayOutputStream byteArrayOutputStream = imageService.downloadImage(imgName, userID);
 
         return ResponseEntity.ok()
@@ -108,35 +102,20 @@ public class ImageController {
                 .body(byteArrayOutputStream.toByteArray());
     }
 
+    //    GET ALL OBJECTS
+
     @GetMapping(
             path = "/image/viewAll/{userID}")
-    @ApiOperation(value = "Views all images of a user.", notes = "Views all images of a user")
+    @ApiOperation(value = "Gets all images of a user.", notes = "Gets all images of a user")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Images views", response = Response.class),
             @ApiResponse(code = 400, message = "Bad Request", response = Response.class),
             @ApiResponse(code = 404, message = "Not Found", response = Response.class)
     })
-//    public List<ResponseEntity<byte[]>> viewAllImage(@RequestParam Integer userID) throws Exception {
-//        List<String> names = imageService.listAllImages(userID);
-//        List<ResponseEntity<byte[]>> response = new ArrayList<>();
-//        for(String name: names)
-//        {
-//            ByteArrayOutputStream byteArrayOutputStream = imageService.downloadImage(name, userID);
-//
-//            response.add(ResponseEntity.ok()
-//                    .contentType(contentType(name))
-//                    .body(byteArrayOutputStream.toByteArray()));
-//        }
-//        return response;
-//    }
-    public List<String> viewAllImage(@PathVariable Integer userID) throws Exception {
-        List<String> list = imageService.listAllImages(userID);
-        List<String> names = new ArrayList<>();
-        for(String name: list){
-            int slash = name.indexOf("/");
-            names.add(name.substring(slash+1));
-        }
-        return names;
+    public ResponseEntity<Response<List<ImageDTO>>> viewAllImages(@PathVariable("userID") Integer userID) throws Exception {
+        List<ImageDTO> images = imageService.getAllUserImage(userID);
+        Response<List<ImageDTO>> response = new Response<>(true,images);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
 
