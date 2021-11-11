@@ -22,14 +22,34 @@ public class SharedImageController {
     }
 
     @PostMapping(
-            path = "/sharedImage/shareImage/{imgLink}/{sharerUserID}/{sharedUserID}")
+            path = "/sharedImage/shareImage/{imgID}/{sharerUserID}/{sharedUserID}/{imgName}")
     @ApiOperation(value = "Shares an image with another user.", notes = "Shares an image with another user.")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Image shared", response = Response.class),
             @ApiResponse(code = 400, message = "Bad Request", response = Response.class),
             @ApiResponse(code = 404, message = "Not Found", response = Response.class)
     })
-    public ResponseEntity<String> shareImage(@PathVariable("imgLink") String imgLink, @PathVariable("sharerUserID") Integer sharerUserID, @PathVariable("sharedUserID") Integer sharedUserID) throws Exception {
-        return new ResponseEntity<>(sharedImageService.shareImage(imgLink,sharerUserID, sharedUserID), HttpStatus.OK);
+    public ResponseEntity<String> shareImage(
+            @PathVariable("imgID") Integer imgID,
+            @PathVariable("sharerUserID") Integer sharerUserID,
+            @PathVariable("sharedUserID") Integer sharedUserID,
+            @PathVariable("imgName") String imgName) throws Exception {
+        return new ResponseEntity<>(sharedImageService.shareImage(imgID,sharerUserID, sharedUserID, imgName), HttpStatus.OK);
+    }
+
+    //  DELETE IMAGE
+    @DeleteMapping(
+            path = "/image/delete/{sharedImgID}/{sharedUserID}/{imgName}")
+    @ApiOperation(value = "Deletes shared image.", notes = "Deletes image from AWS.")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Image was deleted", response = Response.class),
+            @ApiResponse(code = 400, message = "Bad Request", response = Response.class),
+            @ApiResponse(code = 404, message = "Not Found", response = Response.class)
+    })
+    public ResponseEntity<String> deleteSharedImage(
+            @PathVariable Integer sharedImgID,
+            @PathVariable Integer sharedUserID,
+            @PathVariable String imgName) throws Exception {
+        return new ResponseEntity<>(sharedImageService.deleteSharedImage(sharedImgID,imgName, sharedUserID), HttpStatus.OK);
     }
 }

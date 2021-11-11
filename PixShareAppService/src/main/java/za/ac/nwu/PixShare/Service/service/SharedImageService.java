@@ -2,5 +2,8 @@ package za.ac.nwu.PixShare.Service.service;
 
 public interface SharedImageService {
 
-    String shareImage(String imgLink, Integer sharerID, Integer sharedID) throws Exception;
+    String shareImage(Integer imgID, Integer sharerID, Integer sharedID, String imgName) throws Exception;
+
+    String deleteSharedImage(Integer sharedImgID, String imgName, Integer sharedID) throws Exception;
+
 }

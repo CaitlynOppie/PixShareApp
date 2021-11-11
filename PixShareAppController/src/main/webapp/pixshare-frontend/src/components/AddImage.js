@@ -10,7 +10,6 @@ export default class AddImage extends React.Component{
         this.state = this.initialState;
         this.imageChange = this.imageChange.bind(this);
         this.submitImage = this.submitImage.bind(this);
-        this.handleImageChange = this.handleImageChange.bind(this);
     }
 
     initialState = {
@@ -26,7 +25,7 @@ export default class AddImage extends React.Component{
 
         const img = new FormData();
         img.append("userID", this.state.userID);
-        img.append("selectedFile", this.state.selectedFile);
+        img.append("file", this.state.selectedFile);
 
 
         axios
@@ -44,19 +43,25 @@ export default class AddImage extends React.Component{
     }
 
     imageChange = event =>{
-        this.setState({
-            [event.target.name]:event.target.value
-        });
+        console.log(event.target.name);
+        if(event.target.name === "selectedFile"){
+            this.state.selectedFile = event.target.files[0];
+        }else{
+            this.setState({
+                [event.target.name]:event.target.value
+            });
+        }
     }
 
-    handleImageChange = event =>{
-        // this.setState({
-        //     selectedFile : event.target.files[0]
-        // });
-        console.log(event.target.files[0]);
-    }
+    // handleImageChange = event =>{
+    //     this.setState({
+    //         selectedFile : event.target.files[0]
+    //     });
+    //     console.log(event.target.files[0]);
+    // }
 
     render(){
+        const {userID, selectedFile} = this.state;
         return(
             <Card className={"border border-dark bg-dark text-white"}>
                 <Card.Header>
@@ -70,18 +75,17 @@ export default class AddImage extends React.Component{
                                     required
                                     type="ID"
                                     name="userID"
-                                    value={this.state.userID}
+                                    value={userID}
                                     onChange={this.imageChange}
                                     placeholder="Enter user ID" />
                             </Form.Group>
                         <Form.Group controlId="formImage">
                             <Form.Label>Image</Form.Label>
                             <Form.Control
-                                required
                                 type="file"
                                 name="selectedFile"
-                                value={this.state.image}
-                                onChange={this.handleImageChange}
+                                value={selectedFile}
+                                onChange={this.imageChange}
                             />
                         </Form.Group>
                     </Card.Body>

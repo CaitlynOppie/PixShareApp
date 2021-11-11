@@ -12,6 +12,7 @@ import java.util.Objects;
 @ApiModel(value = "Image", description = "A DTO that represents the Image")
 public class ImageDTO {
 
+    private Integer imageID;
     private String link;
     private String name;
     private double size;
@@ -33,7 +34,12 @@ public class ImageDTO {
         this.link = link;
     }
 
+    public ImageDTO(Integer imageID) {
+        this.imageID = imageID;
+    }
+
     public ImageDTO(Image image) {
+        this.setImageID(image.getImageID());
         this.setName(image.getName());
         this.setSize(image.getSize());
         this.setLink(image.getLink());
@@ -44,6 +50,7 @@ public class ImageDTO {
     }
 
     public ImageDTO(ImageDTO imageDto) {
+        this.setImageID(imageDto.getImageID());
         this.setName(imageDto.getName());
         this.setSize(imageDto.getSize());
         this.setLink(imageDto.getLink());
@@ -53,6 +60,22 @@ public class ImageDTO {
         }
     }
 
+    public Integer getImageID() {
+        return imageID;
+    }
+
+    public void setImageID(Integer imageID) {
+        this.imageID = imageID;
+    }
+
+    @ApiModelProperty(position = 2,
+            value = "Image link",
+            name = "link",
+            notes = "Identifies the path of the image",
+            dataType = "java.lang.String",
+            example = "pixshare/6/Caitlyn.png",
+            required = true)
+
     public String getLink() {
         return link;
     }
@@ -61,7 +84,7 @@ public class ImageDTO {
         this.link = link;
     }
 
-    @ApiModelProperty(position = 2,
+    @ApiModelProperty(position = 3,
             value = "Image name",
             name = "name",
             notes = "Identifies the name of the image",
@@ -77,7 +100,7 @@ public class ImageDTO {
         this.name = name;
     }
 
-    @ApiModelProperty(position = 3,
+    @ApiModelProperty(position = 4,
             value = "Image size",
             name = "size",
             notes = "Identifies the size of the image",
@@ -93,7 +116,7 @@ public class ImageDTO {
         this.size = size;
     }
 
-    @ApiModelProperty(position = 4,
+    @ApiModelProperty(position = 5,
             value = "Image date",
             name = "date",
             notes = "Identifies the date the image was taken or created",
@@ -109,7 +132,7 @@ public class ImageDTO {
         this.date = date;
     }
 
-    @ApiModelProperty(position = 5,
+    @ApiModelProperty(position = 6,
             value = "Image userID",
             name = "userID",
             notes = "Identifies the user who originally uploaded the image",
@@ -137,7 +160,7 @@ public class ImageDTO {
 
     @JsonIgnore
     public Image getImgID(){
-        return new Image(getLink());
+        return new Image(imageID);
     }
 
     @Override
@@ -145,21 +168,22 @@ public class ImageDTO {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ImageDTO imageDTO = (ImageDTO) o;
-        return Double.compare(imageDTO.size, size) == 0 && Objects.equals(link, imageDTO.link) && Objects.equals(name, imageDTO.name) && Objects.equals(date, imageDTO.date);
+        return Double.compare(imageDTO.size, size) == 0 && Objects.equals(imageID, imageDTO.imageID) && Objects.equals(link, imageDTO.link) && Objects.equals(name, imageDTO.name) && Objects.equals(date, imageDTO.date);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(link, name, size, date);
+        return Objects.hash(imageID, link, name, size, date);
     }
 
     @Override
     public String toString() {
         return "ImageDTO{" +
+                "imageID=" + imageID +
                 ", link='" + link + '\'' +
                 ", name='" + name + '\'' +
                 ", size=" + size +
-                ", date=" + date +
+                ", date='" + date + '\'' +
                 '}';
     }
 }

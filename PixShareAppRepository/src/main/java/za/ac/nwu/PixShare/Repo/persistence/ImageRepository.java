@@ -8,13 +8,12 @@ import za.ac.nwu.PixShare.Domain.persistence.Image;
 
 import javax.transaction.Transactional;
 
+@Transactional
 @Repository
-public interface ImageRepository extends JpaRepository<Image, String> {
+public interface ImageRepository extends JpaRepository<Image, Integer> {
 
-//    @Transactional
-//    @Modifying
-//    @Query(value = "" +
-//            "UPDATE Image i SET i.name = :imgName, i.date = :date, i.link = :newLink" +
-//            " WHERE i.link = :oldLink")
-//    void updateMetadata(String oldLink, String newLink, String name, String date);
+    void deleteByLink(String imgLink);
+
+    @Query(value = "SELECT i.name FROM Image i WHERE i.imageID = :imgID")
+    String getImageName(Integer imgID);
 }

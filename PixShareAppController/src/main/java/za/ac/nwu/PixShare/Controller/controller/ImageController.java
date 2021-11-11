@@ -116,19 +116,29 @@ public class ImageController {
             @ApiResponse(code = 400, message = "Bad Request", response = Response.class),
             @ApiResponse(code = 404, message = "Not Found", response = Response.class)
     })
-    public List<ResponseEntity<byte[]>> viewAllImage(@PathVariable Integer userID) throws Exception {
-        List<String> names = imageService.listAllImages(userID);
-        List<ResponseEntity<byte[]>> response = new ArrayList<>();
-        for(String name: names)
-        {
-            ByteArrayOutputStream byteArrayOutputStream = imageService.downloadImage(name, userID);
-
-            response.add(ResponseEntity.ok()
-                    .contentType(contentType(name))
-                    .body(byteArrayOutputStream.toByteArray()));
+//    public List<ResponseEntity<byte[]>> viewAllImage(@RequestParam Integer userID) throws Exception {
+//        List<String> names = imageService.listAllImages(userID);
+//        List<ResponseEntity<byte[]>> response = new ArrayList<>();
+//        for(String name: names)
+//        {
+//            ByteArrayOutputStream byteArrayOutputStream = imageService.downloadImage(name, userID);
+//
+//            response.add(ResponseEntity.ok()
+//                    .contentType(contentType(name))
+//                    .body(byteArrayOutputStream.toByteArray()));
+//        }
+//        return response;
+//    }
+    public List<String> viewAllImage(@PathVariable Integer userID) throws Exception {
+        List<String> list = imageService.listAllImages(userID);
+        List<String> names = new ArrayList<>();
+        for(String name: list){
+            int slash = name.indexOf("/");
+            names.add(name.substring(slash+1));
         }
-        return response;
+        return names;
     }
+
 
 
 

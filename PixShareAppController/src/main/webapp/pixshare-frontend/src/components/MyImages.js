@@ -8,17 +8,22 @@ import {Link} from "react-router-dom";
 
 export default class MyImages extends React.Component{
 
-    // constructor(props) {
-    //     super(props);
-    //     this.state ={
-    //         Images : []
-    //     };
-    // }
-    //
-    // componentDidMount() {
-    //     axios.get("https://localhost:8090/pixshare/mvc/image/viewAll/{userID}")
-    //         .then(response => response.data);
-    // }
+    constructor(props) {
+        super(props);
+        this.state ={
+            images : []
+        };
+    }
+
+    componentDidMount() {
+        axios
+            .get("http://localhost:8090/pix-share/mvc/image/view/Caitlyn.png/6")
+            .then(resp => {
+                console.log(resp.data);
+                // this.setState({images: resp.data});
+            });
+        // console.log(this.state.images);
+    }
 
     render(){
         return(
@@ -33,7 +38,7 @@ export default class MyImages extends React.Component{
                         <Row>
                         <Col xs={6} md={4}>
                             <img
-                                src="https://upload.wikimedia.org/wikipedia/commons/a/ad/2016_Phnom_Penh%2C_Pa%C5%82ac_Kr%C3%B3lewski%2C_Preah_Tineang_Phhochani_%2814%29.jpg" rounded
+                                src="http://localhost:8090/pix-share/mvc/image/view/Caitlyn.png/6"
                                 width="70%"
                                 height="70%"
                             />
@@ -43,24 +48,36 @@ export default class MyImages extends React.Component{
                             <Button
                                 variant="outline-light"
                                 type="button">
-                                <i class="fa fa-share-alt"></i>
+                                <i className="fa fa-share-alt"></i>
                             </Button>
                             {' '}
                             <Button
                                 variant="outline-success"
                                 type="button">
-                                <i class="fa fa-download"></i>
+                                <i className="fa fa-download"></i>
                             </Button>
                             {' '}
                             <Button
                                 variant="outline-danger"
                                 type="button">
-                                <i class="fa fa-trash"></i>
+                                <i className="fa fa-trash"></i>
                             </Button>
                         </Col>
 
                     </Row>
                     </Container>
+                    {/*<div>*/}
+                    {/*    {this.state.images.map((img) => (*/}
+                    {/*        <div className={"grouping"}>*/}
+                    {/*            <img*/}
+                    {/*                key={img + "6"}*/}
+                    {/*                src="http://localhost:8090/pix-share/mvc/image/view/Caitlyn.png/6"*/}
+                    {/*                width="70%"*/}
+                    {/*                height="70%"*/}
+                    {/*            />*/}
+                    {/*        </div>*/}
+                    {/*    ))}*/}
+                    {/*</div>*/}
                 </Card.Body>
             </Card>
         );

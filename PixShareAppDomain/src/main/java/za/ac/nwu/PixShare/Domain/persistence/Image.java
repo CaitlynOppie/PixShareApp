@@ -12,6 +12,10 @@ import java.util.Set;
 public class Image {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "IMAGE_ID")
+    private Integer imageID;
+
     @Column(name = "IMAGE_LINK")
     private String link;
 
@@ -29,7 +33,7 @@ public class Image {
     @JsonBackReference
     private User userID;
 
-    @OneToMany(targetEntity = SharedImage.class, fetch = FetchType.LAZY, mappedBy = "link")
+    @OneToMany(targetEntity = SharedImage.class, fetch = FetchType.LAZY, mappedBy = "imageID")
     @JsonManagedReference
     private Set<SharedImage> sharedImage;
 
@@ -38,6 +42,10 @@ public class Image {
 
     public Image(String link) {
         this.link = link;
+    }
+
+    public Image(Integer imageID) {
+        this.imageID = imageID;
     }
 
     public Image(String link, String name, double size, String date, Integer userID) {
@@ -51,6 +59,14 @@ public class Image {
     public Image(String link, User userID) {
         this.link = link;
         this.userID = userID;
+    }
+
+    public Integer getImageID() {
+        return imageID;
+    }
+
+    public void setImageID(Integer imageID) {
+        this.imageID = imageID;
     }
 
     public String getLink() {
@@ -98,22 +114,24 @@ public class Image {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Image image = (Image) o;
-        return  Objects.equals(link, image.link) && Objects.equals(name, image.name) && Objects.equals(size, image.size) && Objects.equals(date, image.date) && Objects.equals(userID, image.userID);
+        return Double.compare(image.size, size) == 0 && Objects.equals(imageID, image.imageID) && Objects.equals(link, image.link) && Objects.equals(name, image.name) && Objects.equals(date, image.date) && Objects.equals(userID, image.userID) && Objects.equals(sharedImage, image.sharedImage);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(link, name, size, date, userID);
+        return Objects.hash(imageID, link, name, size, date, userID, sharedImage);
     }
 
     @Override
     public String toString() {
         return "Image{" +
+                "imageID=" + imageID +
                 ", link='" + link + '\'' +
                 ", name='" + name + '\'' +
-                ", size='" + size + '\'' +
-                ", date=" + date +
+                ", size=" + size +
+                ", date='" + date + '\'' +
                 ", userID=" + userID +
+                ", sharedImage=" + sharedImage +
                 '}';
     }
 }

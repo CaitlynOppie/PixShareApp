@@ -13,6 +13,9 @@ public class SharedImage {
     @Column(name = "SHARED_IMAGE_ID")
     private Integer sharedImageID;
 
+    @Column(name = "IMAGE_NAME")
+    private String imgName;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "USER_ID_SHARER")
     @JsonBackReference
@@ -24,9 +27,9 @@ public class SharedImage {
     private User userIDShared;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "LINK")
+    @JoinColumn(name = "IMAGE_ID")
     @JsonBackReference
-    private Image link;
+    private Image imageID;
 
     public SharedImage() {
     }
@@ -35,24 +38,34 @@ public class SharedImage {
         this.sharedImageID = sharedImageID;
     }
 
-    public SharedImage(Integer sharedImageID, User userIDShared, User userIDSharer, Image link) {
+    public SharedImage(Integer sharedImageID, String imgName, User userIDSharer, User userIDShared, Image imageID) {
         this.sharedImageID = sharedImageID;
-        this.userIDShared = userIDShared;
+        this.imgName = imgName;
         this.userIDSharer = userIDSharer;
-        this.link = link;
+        this.userIDShared = userIDShared;
+        this.imageID = imageID;
     }
 
-    public SharedImage(Integer sharedImageID, Integer userIDShared, Integer userIDSharer, String link) {
+    public SharedImage(Integer sharedImageID, String imgName, Integer userIDShared, Integer userIDSharer, Integer imageID) {
         this.sharedImageID = sharedImageID;
+        this.imgName = imgName;
         this.userIDShared = new User(userIDShared);
         this.userIDSharer = new User(userIDSharer);
-        this.link = new Image(link);
+        this.imageID = new Image(imageID);
     }
 
-    public SharedImage(Integer userIDShared, Integer userIDSharer, String link) {
+    public SharedImage(String imgName, Integer userIDShared, Integer userIDSharer, Integer imageID) {
+        this.imgName = imgName;
         this.userIDShared = new User(userIDShared);
         this.userIDSharer = new User(userIDSharer);
-        this.link = new Image(link);
+        this.imageID = new Image(imageID);
+    }
+
+    public SharedImage(String imgName, User userIDSharer, User userIDShared, Image imageID) {
+        this.imgName = imgName;
+        this.userIDSharer = userIDSharer;
+        this.userIDShared = userIDShared;
+        this.imageID = imageID;
     }
 
     public Integer getSharedImageID() {
@@ -61,6 +74,14 @@ public class SharedImage {
 
     public void setSharedImageID(Integer sharedImageID) {
         this.sharedImageID = sharedImageID;
+    }
+
+    public String getImgName() {
+        return imgName;
+    }
+
+    public void setImgName(String imgName) {
+        this.imgName = imgName;
     }
 
     public User getUserIDSharer() {
@@ -79,12 +100,12 @@ public class SharedImage {
         this.userIDShared = userIDShared;
     }
 
-    public Image getLink() {
-        return link;
+    public Image getImageID() {
+        return imageID;
     }
 
-    public void setLink(Image link) {
-        this.link = link;
+    public void setImageID(Image imageID) {
+        this.imageID = imageID;
     }
 
     @Override
@@ -92,21 +113,22 @@ public class SharedImage {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         SharedImage that = (SharedImage) o;
-        return Objects.equals(sharedImageID, that.sharedImageID) && Objects.equals(userIDSharer, that.userIDSharer) && Objects.equals(userIDShared, that.userIDShared) && Objects.equals(link, that.link);
+        return Objects.equals(sharedImageID, that.sharedImageID) && Objects.equals(imgName, that.imgName) && Objects.equals(userIDSharer, that.userIDSharer) && Objects.equals(userIDShared, that.userIDShared) && Objects.equals(imageID, that.imageID);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(sharedImageID, userIDSharer, userIDShared, link);
+        return Objects.hash(sharedImageID, imgName, userIDSharer, userIDShared, imageID);
     }
 
     @Override
     public String toString() {
         return "SharedImage{" +
                 "sharedImageID=" + sharedImageID +
+                ", imgName='" + imgName + '\'' +
                 ", userIDSharer=" + userIDSharer +
                 ", userIDShared=" + userIDShared +
-                ", link=" + link +
+                ", imageID=" + imageID +
                 '}';
     }
 }

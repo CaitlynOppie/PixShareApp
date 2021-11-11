@@ -13,6 +13,7 @@ import za.ac.nwu.PixShare.Domain.persistence.BucketName;
 import za.ac.nwu.PixShare.Domain.persistence.Image;
 import za.ac.nwu.PixShare.Repo.persistence.ImageRepository;
 import org.springframework.web.multipart.MultipartFile;
+import za.ac.nwu.PixShare.Repo.persistence.SharedImageRepository;
 import za.ac.nwu.PixShare.Service.service.ImageService;
 
 import javax.transaction.Transactional;
@@ -30,11 +31,13 @@ public class ImageServiceImpl implements ImageService {
     private final AmazonS3 s3;
     private String bucketName = BucketName.IMAGE.getBucketName();
     private final ImageRepository imageRepository;
+    private final SharedImageRepository sharedImageRepository;
 
     @Autowired
-    public ImageServiceImpl(AmazonS3 s3, ImageRepository imageRepository) {
+    public ImageServiceImpl(AmazonS3 s3, ImageRepository imageRepository, SharedImageRepository sharedImageRepository) {
         this.s3 = s3;
         this.imageRepository = imageRepository;
+        this.sharedImageRepository = sharedImageRepository;
     }
 
     //    UPLOAD IMAGE TO AWS ---> get userID from logged in user
@@ -79,20 +82,15 @@ public class ImageServiceImpl implements ImageService {
             LOGGER.info("The image path is {} ", path);
             LOGGER.info("The image link is {} ", imgLink);
             LOGGER.info("The image key is {} ", imgKey);
+//            DELETE SHARED IMAGES ASWELL
             s3.deleteObject(bucketName, imgKey);
-            imageRepository.deleteById(imgLink);
+            imageRepository.deleteByLink(imgLink);
             return imgName + " has been permanently deleted";
-            //    remove user access (shared images)
         }catch (Exception e){
             throw new Exception("Image could not be deleted",e);
         }
 
     }
-
-
-
-
-//    View image
 
     //  DOWNLOAD IMAGE ---> add option for multi file download (array)
     @Override

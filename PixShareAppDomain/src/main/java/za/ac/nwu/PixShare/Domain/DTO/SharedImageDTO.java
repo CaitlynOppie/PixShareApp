@@ -13,9 +13,10 @@ import java.util.Objects;
 public class SharedImageDTO {
 
     private Integer sharedImageID;
+    private String imgName;
     private Integer userIDShared;
     private Integer userIDSharer;
-    private String link;
+    private Integer imageID;
 
     public SharedImageDTO() {
     }
@@ -24,40 +25,41 @@ public class SharedImageDTO {
         this.sharedImageID = sharedImageID;
     }
 
-    public SharedImageDTO(Integer sharedImageID, Integer userIDShared, Integer userIDSharer, String link) {
+    public SharedImageDTO(Integer sharedImageID, String imgName, Integer userIDShared, Integer userIDSharer, Integer imageID) {
         this.sharedImageID = sharedImageID;
+        this.imgName = imgName;
         this.userIDShared = userIDShared;
         this.userIDSharer = userIDSharer;
-        this.link = link;
+        this.imageID = imageID;
     }
 
     public SharedImageDTO(SharedImage sharedImage) {
         this.setSharedImageID(sharedImage.getSharedImageID());
+        this.setImgName(sharedImage.getImgName());
         if (null != sharedImage.getUserIDShared()){
             this.userIDShared = sharedImage.getUserIDShared().getUserID();
         }
         if (null != sharedImage.getUserIDSharer()){
             this.userIDSharer = sharedImage.getUserIDSharer().getUserID();
         }
-        if (null != sharedImage.getLink()){
-            this.link = sharedImage.getLink().getLink();
+        if (null != sharedImage.getImageID()){
+            this.imageID = sharedImage.getImageID().getImageID();
         }
     }
 
     public SharedImageDTO(SharedImageDTO sharedImageDto) {
         this.setSharedImageID(sharedImageDto.getSharedImageID());
+        this.setImgName(sharedImageDto.getImgName());
         if (null != sharedImageDto.getUserIDShared()){
             this.userIDShared = sharedImageDto.getUserIDShared();
         }
         if (null != sharedImageDto.getUserIDSharer()){
             this.userIDSharer = sharedImageDto.getUserIDSharer();
         }
-        if (null != sharedImageDto.getLink()){
-            this.link = sharedImageDto.getLink();
+        if (null != sharedImageDto.getImageID()){
+            this.imageID = sharedImageDto.getImageID();
         }
     }
-
-
 
     public Integer getSharedImageID() {
         return sharedImageID;
@@ -67,12 +69,46 @@ public class SharedImageDTO {
         this.sharedImageID = sharedImageID;
     }
 
+
     @ApiModelProperty(position = 1,
-            value = "SharedImage userIDShared",
-            name = "userID",
-            notes = "Identifies the user who the image is shared with",
+            value = "SharedImage imageID",
+            name = "imageID",
+            notes = "Identifies the image that has been shared with another user",
             dataType = "java.lang.Integer",
-            example = "1",
+            example = "01",
+            required = true)
+
+    public Integer getImageID() {
+        return imageID;
+    }
+
+    public void setImageID(Integer imageID) {
+        this.imageID = imageID;
+    }
+
+    @ApiModelProperty(position = 2,
+            value = "String imgName",
+            name = "imgName",
+            notes = "Identifies the image",
+            dataType = "java.lang.String",
+            example = "Caitlyn.png",
+            required = true)
+
+
+    public String getImgName() {
+        return imgName;
+    }
+
+    public void setImgName(String imgName) {
+        this.imgName = imgName;
+    }
+
+    @ApiModelProperty(position = 3,
+            value = "SharedImage userIDSharer",
+            name = "userID",
+            notes = "Identifies the user who shares the image",
+            dataType = "java.lang.Integer",
+            example = "3",
             required = true)
 
     public Integer getUserIDShared() {
@@ -83,7 +119,7 @@ public class SharedImageDTO {
         this.userIDShared = userIDShared;
     }
 
-    @ApiModelProperty(position = 2,
+    @ApiModelProperty(position = 4,
             value = "SharedImage userIDSharer",
             name = "userID",
             notes = "Identifies the user who shares the image",
@@ -100,31 +136,16 @@ public class SharedImageDTO {
     }
 
 
-    @ApiModelProperty(position = 1,
-            value = "SharedImage imageID",
-            name = "imageID",
-            notes = "Identifies the image that has been shared with another user",
-            dataType = "java.lang.Integer",
-            example = "01",
-            required = true)
-
-    public String getLink() {
-        return link;
-    }
-
-    public void setLink(String imageID) {
-        this.link = link;
-    }
 
 
     @JsonIgnore
     public SharedImage getSharedImage(){
-        return new SharedImage(getSharedImageID(), getUserIDShared(), getUserIDSharer(), getLink());
+        return new SharedImage(getSharedImageID(),getImgName(), getUserIDShared(), getUserIDSharer(), getImageID());
     }
 
     @JsonIgnore
     public SharedImageDTO getSharedImageDTO(){
-        return new SharedImageDTO(getSharedImageID(), getUserIDShared(), getUserIDSharer(), getLink());
+        return new SharedImageDTO(getSharedImageID(), getImgName(), getUserIDShared(), getUserIDSharer(), getImageID());
     }
 
     @JsonIgnore
@@ -137,21 +158,22 @@ public class SharedImageDTO {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         SharedImageDTO that = (SharedImageDTO) o;
-        return Objects.equals(sharedImageID, that.sharedImageID) && Objects.equals(userIDShared, that.userIDShared) && Objects.equals(userIDSharer, that.userIDSharer) && Objects.equals(link, that.link);
+        return Objects.equals(sharedImageID, that.sharedImageID) && Objects.equals(imgName, that.imgName) && Objects.equals(userIDShared, that.userIDShared) && Objects.equals(userIDSharer, that.userIDSharer) && Objects.equals(imageID, that.imageID);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(sharedImageID, userIDShared, userIDSharer, link);
+        return Objects.hash(sharedImageID, imgName, userIDShared, userIDSharer, imageID);
     }
 
     @Override
     public String toString() {
         return "SharedImageDTO{" +
                 "sharedImageID=" + sharedImageID +
+                ", imgName='" + imgName + '\'' +
                 ", userIDShared=" + userIDShared +
                 ", userIDSharer=" + userIDSharer +
-                ", link='" + link + '\'' +
+                ", imageID=" + imageID +
                 '}';
     }
 }
