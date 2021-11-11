@@ -17,10 +17,11 @@ export default class MyImages extends React.Component{
 
     componentDidMount() {
         axios
-            .get("http://localhost:8090/pix-share/mvc/image/view/1/Caitlyn.png")
+            .get("http://localhost:8090/pix-share/mvc/image/viewAll/17")
             .then(res => res.data)
-                .then((data) => {
-                this.setState({images: data});
+            .then((data) => {
+                console.log(data);
+                this.setState({images: data.data});
         });
         console.log(this.state.images);
     }
@@ -35,46 +36,38 @@ export default class MyImages extends React.Component{
                 </Card.Header>
                 <Card.Body>
                     <div>
-                        {/*{this.state.images.map((image) => (*/}
-                            <div>
-                                {/*    <img*/}
-                                {/*        className="border border-success mt-3 w-50 d-inline"*/}
-                                {/*        src={`http://localhost:8090/pix-share/mvc/image/view/1/Caitlyn.png`}*/}
-                                {/*        key={image}*/}
-                                {/*        alt="image"*/}
-                                {/*    />*/}
-                                {/*))}*/}
+                        {this.state.images.map((image) => (
+                            <div className="imageLayout">
                                 <img
-                                    src={"http://localhost:8090/pix-share/mvc/image/view/1/Caitlyn.png"}
-
+                                    className="image"
+                                    key={image.size}
+                                    src={"http://localhost:8090/pix-share/mvc/image/view/17/" + image.name}
                                 />
                                 {' '}
                                 <br/>
-                                <div className="metadata">Image ID:</div>
-                                <div className="metadata">Size:</div>
-                                <div className="metadata">Date:</div>
+                                <div className="metadata">{image.name}</div>
+                                <div className="metadata">Size: {image.size}KB</div>
+                                <div className="metadata">Date: {image.date}</div>
+
+                                <Button variant="outline-light" type="button" className="buttonLayout"> <i className="fa fa-share-alt"></i> </Button>
+                                {' '}
+                                <Button variant="outline-success" type="button" className="buttonLayout"> <i className="fa fa-download"></i> </Button>
+                                {' '}
+                                <Button variant="outline-danger" type="button" className="buttonLayout"><i className="fa fa-trash"></i></Button>
                                 <br/>
-                                <Button
-                                    variant="outline-light"
-                                    type="button">
-                                    <i className="fa fa-share-alt"></i>
-                                </Button>
-                                {' '}
-                                <Button
-                                    variant="outline-success"
-                                    type="button">
-                                    <i className="fa fa-download"></i>
-                                </Button>
-                                {' '}
-                                <Button
-                                    variant="outline-danger"
-                                    type="button">
-                                    <i className="fa fa-trash"></i>
-                                </Button>
                             </div>
+                        ))}
                     </div>
                 </Card.Body>
             </Card>
         );
     }
 }
+
+                        {/*    <img*/}
+                        {/*        className="border border-success mt-3 w-50 d-inline"*/}
+                        {/*        src={`http://localhost:8090/pix-share/mvc/image/view/1/Caitlyn.png`}*/}
+                        {/*        key={image}*/}
+                        {/*        alt="image"*/}
+                        {/*    />*/}
+                        {/*))}*/}

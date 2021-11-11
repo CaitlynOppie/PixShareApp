@@ -31,15 +31,27 @@
 }
 
 .image {
-  height:100px;
-  width:100px;
+  height:200px;
+  width:200px;
   display:inline-block;
 }
 
 .metadata{
   font-size:80%;
   color:#6c757d;
-  margin: 5px;
+  margin-bottom: 5px;
+  margin-left: 1px;
+}
+
+
+.imageLayout{
+  display: inline-block;
+  margin: 25px;
+  /*width: 33%;*/
+}
+
+.buttonLayout{
+  margin-bottom: 5px;
 }
 
 .cards {

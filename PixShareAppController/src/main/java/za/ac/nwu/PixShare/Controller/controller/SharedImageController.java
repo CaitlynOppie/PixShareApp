@@ -12,6 +12,7 @@ import za.ac.nwu.PixShare.Service.service.SharedImageService;
 
 @RestController
 @RequestMapping("")
+@CrossOrigin(origins = "http://localhost:3000" )
 public class SharedImageController {
 
     private final SharedImageService sharedImageService;
