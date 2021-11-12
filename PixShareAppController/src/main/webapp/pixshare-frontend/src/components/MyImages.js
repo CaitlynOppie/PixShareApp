@@ -3,15 +3,15 @@ import axios from 'axios';
 import AddImage from "./AddImage";
 
 
-import {Card, Container, Row, Col, Button, InputGroup, FormControl} from 'react-bootstrap'
+import {Card, Container, Row, Col, Button, InputGroup, FormControl, Form} from 'react-bootstrap'
 import {Link} from "react-router-dom";
 
-export default class MyImages extends React.Component{
+export default class MyImages extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state ={
-            images : []
+        this.state = {
+            images: []
         };
     }
 
@@ -22,15 +22,15 @@ export default class MyImages extends React.Component{
             .then((data) => {
                 console.log(data);
                 this.setState({images: data.data});
-        });
+            });
         console.log(this.state.images);
     }
 
     deleteImage = (image) => {
-        axios.delete("http://localhost:8090/pix-share/mvc/image/delete/"+image.userID+"/"+image.name)
+        axios.delete("http://localhost:8090/pix-share/mvc/image/delete/" + image.userID + "/" + image.name)
             .then(response => {
-                if(response.data != null){
-                    if(!alert(image.name + " deleted successfully")){
+                if (response.data != null) {
+                    if (!alert(image.name + " deleted successfully")) {
                         window.location.reload();
                     }
                 }
@@ -39,15 +39,41 @@ export default class MyImages extends React.Component{
     };
 
     downloadImage = (image) => {
-        window.open("http://localhost:8090/pix-share/mvc/image/download/"+image.userID+"/"+image.name);
+        window.open("http://localhost:8090/pix-share/mvc/image/download/" + image.userID + "/" + image.name);
     }
 
-    shareImage = (image) => {
-        alert(image.userID)
+    setUserID = event => {
+        console.log(event.target.name);
+        this.setState({
+            [event.target.name]:event.target.value
+        });
     }
 
-    render(){
-        return(
+
+    shareImage(image) {
+        return event => {
+            event.preventDefault();
+
+            const img = new FormData();
+            img.append("sharedUserID", this.state.userID);
+            // alert("http://localhost:8090/pix-share/mvc/sharedImage/shareImage/" + image.imageID + "/" + image.userID + "/" + this.state.userID + "/" + image.name);
+
+
+            axios
+                .post("http://localhost:8090/pix-share/mvc/sharedImage/shareImage/" + image.imageID + "/" + image.userID + "/" + this.state.userID + "/" + image.name)
+                .then(response => {
+                    alert("Image shared successfully");
+                })
+                .catch(err => {
+                    alert("Image could not be shared. Double check userID");
+                });
+        }
+    }
+
+
+    render() {
+        const {userID} = this.state;
+        return (
             <Card className="cards">
                 <Card.Header>
                     My Images
@@ -70,7 +96,6 @@ export default class MyImages extends React.Component{
                                 <div className="metadata">Date: {image.date}</div>
 
 
-
                                 {' '}
                                 <Button
                                     variant="outline-success"
@@ -89,20 +114,23 @@ export default class MyImages extends React.Component{
                                     <i className="fa fa-trash"></i>
                                 </Button>
                                 <br/>
-                                <InputGroup className="mb-3">
-                                    <FormControl
-                                        placeholder="User ID"
-                                        aria-label="User ID"
-                                        aria-describedby="basic-addon2"
-                                        value={this.state.userID}
-                                    />
-                                    <Button
-                                        variant="outline-light"
-                                        type="button"
-                                        onClick={this.shareImage.bind(this, image, this.state.userID)}>
-                                        <i className="fa fa-share-alt"></i>
-                                    </Button>
-                                </InputGroup>
+                                <Form onSubmit={this.shareImage(image)} id="ShareImageForm">
+                                    <InputGroup className="mb-3">
+                                        <FormControl
+                                            placeholder="User ID"
+                                            aria-label="User ID"
+                                            aria-describedby="basic-addon2"
+                                            name="userID"
+                                            value={userID}
+                                            onChange={this.setUserID}
+                                        />
+                                        <Button
+                                            variant="outline-light"
+                                            type="submit">
+                                            <i className="fa fa-share-alt"></i>
+                                        </Button>
+                                    </InputGroup>
+                                </Form>
                                 <br/>
                             </div>
                         ))}
@@ -111,4 +139,5 @@ export default class MyImages extends React.Component{
             </Card>
         );
     }
+
 }
