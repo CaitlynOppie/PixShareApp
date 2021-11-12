@@ -17,7 +17,7 @@ public class ImageDTO {
     private String name;
     private double size;
     private String date;
-    private static Integer userID;
+    private Integer userID;
 
     public ImageDTO() {
     }
@@ -44,7 +44,7 @@ public class ImageDTO {
         this.setSize(image.getSize());
         this.setLink(image.getLink());
         this.setDate(image.getDate());
-        if (null != image.getUserID()){
+        if (null != image.getUserID()) {
             this.userID = image.getUserID().getUserID();
         }
     }
@@ -55,7 +55,7 @@ public class ImageDTO {
         this.setSize(imageDto.getSize());
         this.setLink(imageDto.getLink());
         this.setDate(imageDto.getDate());
-        if (null != imageDto.getUserID()){
+        if (null != imageDto.getUserID()) {
             this.userID = imageDto.getUserID();
         }
     }
@@ -140,7 +140,7 @@ public class ImageDTO {
             example = "01",
             required = true)
 
-    public static Integer getUserID() {
+    public Integer getUserID() {
         return userID;
     }
 
@@ -149,17 +149,17 @@ public class ImageDTO {
     }
 
     @JsonIgnore
-    public Image getImage(){
-        return new Image(getDate(), getLink(), getName(), getSize(),  getUserID());
+    public Image getImage() {
+        return new Image(getDate(), getLink(), getName(), getSize(), getUserID());
     }
 
     @JsonIgnore
-    public ImageDTO getImageDTO(){
+    public ImageDTO getImageDTO() {
         return new ImageDTO(getLink(), getName(), getSize(), getDate(), getUserID());
     }
 
     @JsonIgnore
-    public Image getImgID(){
+    public Image getImgID() {
         return new Image(imageID);
     }
 
@@ -168,12 +168,12 @@ public class ImageDTO {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ImageDTO imageDTO = (ImageDTO) o;
-        return Double.compare(imageDTO.size, size) == 0 && Objects.equals(imageID, imageDTO.imageID) && Objects.equals(link, imageDTO.link) && Objects.equals(name, imageDTO.name) && Objects.equals(date, imageDTO.date);
+        return Double.compare(imageDTO.size, size) == 0 && Objects.equals(imageID, imageDTO.imageID) && Objects.equals(link, imageDTO.link) && Objects.equals(name, imageDTO.name) && Objects.equals(date, imageDTO.date) && Objects.equals(userID, imageDTO.userID);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(imageID, link, name, size, date);
+        return Objects.hash(imageID, link, name, size, date, userID);
     }
 
     @Override
@@ -184,6 +184,9 @@ public class ImageDTO {
                 ", name='" + name + '\'' +
                 ", size=" + size +
                 ", date='" + date + '\'' +
+                ", userID=" + userID +
                 '}';
     }
 }
+
+

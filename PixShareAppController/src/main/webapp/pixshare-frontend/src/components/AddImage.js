@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button, Card, Form} from "react-bootstrap";
+import {Button, Card, Form, ProgressBar} from "react-bootstrap";
 import axios from 'axios';
 
 export default class AddImage extends React.Component{
@@ -35,11 +35,15 @@ export default class AddImage extends React.Component{
             .then(response => {
                 if(response.data != null){
                     this.setState(() => this.initialState);
-                    alert("Image saved successfully");
+                    if(!alert("Image saved successfully")){
+                        window.location ="/";
+                    }
+                    ;
                 }
             })
             .catch(err => {
-            console.log(err)});
+            alert("Image could not be uploaded. Please try again, if the problem persists your image my be too large to upload");
+            });
     }
 
     imageChange = event =>{
@@ -52,13 +56,6 @@ export default class AddImage extends React.Component{
             });
         }
     }
-
-    // handleImageChange = event =>{
-    //     this.setState({
-    //         selectedFile : event.target.files[0]
-    //     });
-    //     console.log(event.target.files[0]);
-    // }
 
     render(){
         const {userID, selectedFile} = this.state;
@@ -88,6 +85,7 @@ export default class AddImage extends React.Component{
                                 onChange={this.imageChange}
                             />
                         </Form.Group>
+
                     </Card.Body>
                 <Card.Footer style={{"textAlign":"right"}}>
                     <Button

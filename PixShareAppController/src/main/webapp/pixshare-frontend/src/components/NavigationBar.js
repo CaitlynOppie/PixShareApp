@@ -20,7 +20,7 @@ export default class NavigationBar extends React.Component{
                         </Link>
                      </Nav.Item>
                      <Nav.Item className="ml-auto">
-                         <Link href="#" className="nav-link">Log in</Link>
+                         <Link to={"/"} className="btn btn-outline-light">Log in</Link>
                      </Nav.Item>
                  </Nav>
             </Navbar>

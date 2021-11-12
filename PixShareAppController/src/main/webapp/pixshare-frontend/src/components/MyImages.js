@@ -3,7 +3,7 @@ import axios from 'axios';
 import AddImage from "./AddImage";
 
 
-import {Card, Container, Row, Col, Button} from 'react-bootstrap'
+import {Card, Container, Row, Col, Button, InputGroup, FormControl} from 'react-bootstrap'
 import {Link} from "react-router-dom";
 
 export default class MyImages extends React.Component{
@@ -24,6 +24,26 @@ export default class MyImages extends React.Component{
                 this.setState({images: data.data});
         });
         console.log(this.state.images);
+    }
+
+    deleteImage = (image) => {
+        axios.delete("http://localhost:8090/pix-share/mvc/image/delete/"+image.userID+"/"+image.name)
+            .then(response => {
+                if(response.data != null){
+                    if(!alert(image.name + " deleted successfully")){
+                        window.location.reload();
+                    }
+                }
+            })
+        // alert("http://localhost:8090/pix-share/mvc/image/delete/17/"+image.name);
+    };
+
+    downloadImage = (image) => {
+        window.open("http://localhost:8090/pix-share/mvc/image/download/"+image.userID+"/"+image.name);
+    }
+
+    shareImage = (image) => {
+        alert(image.userID)
     }
 
     render(){
@@ -49,11 +69,40 @@ export default class MyImages extends React.Component{
                                 <div className="metadata">Size: {image.size}KB</div>
                                 <div className="metadata">Date: {image.date}</div>
 
-                                <Button variant="outline-light" type="button" className="buttonLayout"> <i className="fa fa-share-alt"></i> </Button>
+
+
                                 {' '}
-                                <Button variant="outline-success" type="button" className="buttonLayout"> <i className="fa fa-download"></i> </Button>
+                                <Button
+                                    variant="outline-success"
+                                    type="button"
+                                    className="buttonLayout"
+                                    onClick={this.downloadImage.bind(this, image)}>
+                                    <i className="fa fa-download">
+
+                                    </i> </Button>
                                 {' '}
-                                <Button variant="outline-danger" type="button" className="buttonLayout"><i className="fa fa-trash"></i></Button>
+                                <Button
+                                    variant="outline-danger"
+                                    type="button"
+                                    className="buttonLayout"
+                                    onClick={this.deleteImage.bind(this, image)}>
+                                    <i className="fa fa-trash"></i>
+                                </Button>
+                                <br/>
+                                <InputGroup className="mb-3">
+                                    <FormControl
+                                        placeholder="User ID"
+                                        aria-label="User ID"
+                                        aria-describedby="basic-addon2"
+                                        value={this.state.userID}
+                                    />
+                                    <Button
+                                        variant="outline-light"
+                                        type="button"
+                                        onClick={this.shareImage.bind(this, image, this.state.userID)}>
+                                        <i className="fa fa-share-alt"></i>
+                                    </Button>
+                                </InputGroup>
                                 <br/>
                             </div>
                         ))}
@@ -63,11 +112,3 @@ export default class MyImages extends React.Component{
         );
     }
 }
-
-                        {/*    <img*/}
-                        {/*        className="border border-success mt-3 w-50 d-inline"*/}
-                        {/*        src={`http://localhost:8090/pix-share/mvc/image/view/1/Caitlyn.png`}*/}
-                        {/*        key={image}*/}
-                        {/*        alt="image"*/}
-                        {/*    />*/}
-                        {/*))}*/}

@@ -75,7 +75,7 @@ public class ImageServiceImpl implements ImageService {
     }
 
     @Override
-    public String deleteImage(String imgName, Integer userID) throws Exception {
+    public String deleteImage(Integer userID, String imgName) throws Exception {
         try{
             LOGGER.info("The image name is {} and the userID is {} ", imgName, userID);
             String path = String.format("%s/%s", bucketName, userID);

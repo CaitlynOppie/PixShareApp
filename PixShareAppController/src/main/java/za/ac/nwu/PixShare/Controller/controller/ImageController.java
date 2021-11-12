@@ -50,15 +50,17 @@ public class ImageController {
 
 //  DELETE IMAGE
     @DeleteMapping(
-            path = "/image/delete/{imgName}/{userID}")
+            path = "/image/delete/{userID}/{imgName}")
     @ApiOperation(value = "Deletes image.", notes = "Deletes image from AWS.")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Image was deleted", response = Response.class),
             @ApiResponse(code = 400, message = "Bad Request", response = Response.class),
             @ApiResponse(code = 404, message = "Not Found", response = Response.class)
     })
-    public ResponseEntity<String> deleteFile(@PathVariable String imgName, @PathVariable Integer userID) throws Exception {
-        return new ResponseEntity<>(imageService.deleteImage(imgName, userID), HttpStatus.OK);
+    public ResponseEntity<String> deleteFile(
+            @PathVariable Integer userID,
+            @PathVariable String imgName) throws Exception {
+        return new ResponseEntity<>(imageService.deleteImage(userID, imgName), HttpStatus.OK);
     }
 
 //  DOWNLOAD IMAGE

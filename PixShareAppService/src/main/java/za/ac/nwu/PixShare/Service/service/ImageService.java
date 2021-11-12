@@ -13,7 +13,7 @@ public interface ImageService {
 
     String uploadImage(MultipartFile image, Integer userID) throws IOException;
 
-    String deleteImage(String imgName, Integer userID) throws Exception;
+    String deleteImage(Integer userID, String imgName) throws Exception;
 
     ByteArrayOutputStream downloadImage(String imgName, Integer userID) throws IOException;
 
