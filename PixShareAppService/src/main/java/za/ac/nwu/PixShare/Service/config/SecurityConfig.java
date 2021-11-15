@@ -31,22 +31,30 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
-//    @Override
-//    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-//        auth.userDetailsService(userDetailsService)
-//                .passwordEncoder(bCryptPasswordEncoder());
-//    }
-
     @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable();
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(userDetailsService)
+                .passwordEncoder(bCryptPasswordEncoder());
+    }
+
+//    @Override
+//    protected void configure(HttpSecurity http) throws Exception {
+//        http.csrf().disable();
 //        http.authorizeRequests()
 ////                .antMatchers("/**").authenticated()
 //                .anyRequest().permitAll()
 //                .and()
 //                .formLogin()
 //                .loginPage("/login").permitAll();
+//    }
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http.csrf().disable();
+//        http.authorizeRequests().antMatchers("/**").authenticated().anyRequest().permitAll().and()
+//                .formLogin().permitAll();
     }
+
 
 //    caitlyn.opperman@gmail.com
 //    caitlyn0609

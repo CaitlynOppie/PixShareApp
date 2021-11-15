@@ -19,8 +19,9 @@ export default class NavigationBar extends React.Component{
                             PixShare
                         </Link>
                      </Nav.Item>
-                     <Nav.Item className="ml-auto">
-                         <Link to={"/"} className="btn btn-outline-light">Log in</Link>
+                     <Nav.Item className="navbar-right">
+                         <Link to={"/MyImages"} className="btn btn-outline-light">Images</Link>
+                         <Link to={"/Login"} className="btn btn-outline-light">Log in</Link>
                      </Nav.Item>
                  </Nav>
             </Navbar>

@@ -60,6 +60,17 @@
   background-color: #282c34;
 }
 
+.loginCard {
+  color: white;
+  background-color: #282c34;
+  width: 40%;
+  margin: auto;
+}
+
+.home {
+  color: black;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);

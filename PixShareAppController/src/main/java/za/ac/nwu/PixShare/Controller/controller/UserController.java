@@ -7,13 +7,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import za.ac.nwu.PixShare.Domain.DTO.ImageDTO;
 import za.ac.nwu.PixShare.Domain.DTO.UserDTO;
 import za.ac.nwu.PixShare.Domain.service.Response;
 import za.ac.nwu.PixShare.Service.service.UserService;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("")
-@CrossOrigin(origins = "http://localhost:3000" )
+@CrossOrigin(origins = "http://localhost:3000")
 public class UserController {
 
     private UserService userService;
@@ -24,7 +27,7 @@ public class UserController {
     }
 
     @GetMapping(
-            path = "/login"
+            path = "/"
     )
     public String login() {
         return "login";
@@ -39,7 +42,7 @@ public class UserController {
             @ApiResponse(code = 400, message = "Bad Request", response = Response.class),
             @ApiResponse(code = 404, message = "Not Found", response = Response.class)
     })
-    public ResponseEntity<String> addUser(@RequestBody UserDTO userDTO) throws Exception {
+    public ResponseEntity<String> addUser(@ModelAttribute UserDTO userDTO) throws Exception {
         return new ResponseEntity<>(userService.addUser(userDTO), HttpStatus.OK);
     }
 
@@ -67,5 +70,19 @@ public class UserController {
     })
     public ResponseEntity<String> changePassword(@PathVariable String email, @PathVariable String password) throws Exception {
         return new ResponseEntity<>(userService.changePassword(email,password), HttpStatus.OK);
+    }
+
+    @GetMapping(
+            path = "/user/exists/{userID}")
+    @ApiOperation(value = "Checks if a user exists.", notes = "Checks if a user exists")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "All user IDs displayed", response = Response.class),
+            @ApiResponse(code = 400, message = "Bad Request", response = Response.class),
+            @ApiResponse(code = 404, message = "Not Found", response = Response.class)
+    })
+    public ResponseEntity<Response<Boolean>> checkUserExists(@PathVariable("userID") Integer userID) throws Exception {
+        Boolean exists = userService.getAllUsers(userID);
+        Response<Boolean> response = new Response<>(true,exists);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }

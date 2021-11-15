@@ -12,6 +12,9 @@ import za.ac.nwu.PixShare.Repo.persistence.UserRepository;
 import za.ac.nwu.PixShare.Service.service.UserService;
 
 import javax.transaction.Transactional;
+import java.sql.SQLException;
+import java.util.List;
+import java.util.Objects;
 
 @Transactional
 @Component("UserService")
@@ -71,6 +74,27 @@ public class UserServiceImpl implements UserService {
         }catch (Exception e) {
             throw new Exception("User password could not be changed", e);
         }
+    }
+
+    @Override
+    public Boolean getAllUsers(Integer uID) throws Exception {
+        try{
+
+            Boolean userExists = false;
+
+            List<Integer> users = userRepository.getAllUserID();
+            LOGGER.info("The users are {}", users);
+            for(Integer user: users){
+                if(Objects.equals(uID, user)){
+                    userExists = true;
+                }
+            }
+
+            return userExists;
+        }catch(Exception e){
+            throw new SQLException("Users could not be obtained");
+        }
+
     }
 
 

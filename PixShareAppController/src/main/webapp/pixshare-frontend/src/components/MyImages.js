@@ -13,11 +13,12 @@ export default class MyImages extends React.Component {
         this.state = {
             images: []
         };
+        this.state.exists = '';
     }
 
     componentDidMount() {
         axios
-            .get("http://localhost:8090/pix-share/mvc/image/viewAll/17")
+            .get("http://localhost:8090/pix-share/mvc/image/viewAll/"+ localStorage.getItem('userID'))
             .then(res => res.data)
             .then((data) => {
                 console.log(data);
@@ -47,32 +48,57 @@ export default class MyImages extends React.Component {
         this.setState({
             [event.target.name]:event.target.value
         });
+
     }
 
 
     shareImage(image) {
         return event => {
             event.preventDefault();
-
-            const img = new FormData();
-            img.append("sharedUserID", this.state.userID);
-            // alert("http://localhost:8090/pix-share/mvc/sharedImage/shareImage/" + image.imageID + "/" + image.userID + "/" + this.state.userID + "/" + image.name);
-
-
+            localStorage.setItem('sharedUserID', this.state.userID);
             axios
-                .post("http://localhost:8090/pix-share/mvc/sharedImage/shareImage/" + image.imageID + "/" + image.userID + "/" + this.state.userID + "/" + image.name)
-                .then(response => {
-                    alert("Image shared successfully");
-                })
-                .catch(err => {
-                    alert("Image could not be shared. Double check userID");
+                .get("http://localhost:8090/pix-share/mvc/user/exists/"+ localStorage.getItem('sharedUserID'))
+                .then(res => res.data)
+                .then((data) => {
+                    console.log(data);
+                    this.setState({exists: data.data});
+                    if(this.state.exists){
+                        const img = new FormData();
+                        img.append("date", image.date);
+                        img.append("imageid", image.imageID);
+                        img.append("link", image.link);
+                        img.append("name", image.name);
+                        img.append("sharedUserID", localStorage.getItem('sharedUserID'));
+                        img.append("size", image.size);
+                        img.append("user", image.userID);
+                        //http://localhost:8090/pix-share/mvc/sharedImage/shareImage}?date=2021%2F11%2F15&imageid=42&link=pixshare%2F28%2F2015-06-11%2013.45.06.jpg&name=2015-06-11%2013.45.06.jpg&sharedUserID=17&size=406&user=28
+
+                        // console.log(image.name, image.size, image.link, image.date, image.userID);
+
+                        axios
+                            .post("http://localhost:8090/pix-share/mvc/sharedImage/shareImage",img)
+                            .then(response => {
+                                alert("Image shared successfully");
+                            })
+                            .catch(err => {
+                                alert("Image could not be shared. Double check userID");
+                            });
+                    }
+                    else{
+                        alert("User with ID: " + localStorage.getItem('sharedUserID') + " does not exist");
+                        this.state.userID = '';
+                        this.state.exists='';
+                    }
                 });
+
+
         }
     }
 
 
     render() {
         const {userID} = this.state;
+        let uID = localStorage.getItem('userID');
         return (
             <Card className="cards">
                 <Card.Header>
@@ -86,8 +112,8 @@ export default class MyImages extends React.Component {
                             <div className="imageLayout">
                                 <img
                                     className="image"
-                                    key={image.size}
-                                    src={"http://localhost:8090/pix-share/mvc/image/view/17/" + image.name}
+                                    key={image.imageID}
+                                    src={"http://localhost:8090/pix-share/mvc/image/view/"+ uID + "/" + image.name}
                                 />
                                 {' '}
                                 <br/>
@@ -121,7 +147,6 @@ export default class MyImages extends React.Component {
                                             aria-label="User ID"
                                             aria-describedby="basic-addon2"
                                             name="userID"
-                                            value={userID}
                                             onChange={this.setUserID}
                                         />
                                         <Button

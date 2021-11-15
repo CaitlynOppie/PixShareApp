@@ -8,6 +8,7 @@ import za.ac.nwu.PixShare.Domain.DTO.UserDTO;
 import za.ac.nwu.PixShare.Domain.persistence.User;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer> {
@@ -19,5 +20,8 @@ public interface UserRepository extends JpaRepository<User, Integer> {
             "UPDATE User u SET u.password = :newPassword" +
             " WHERE u.email = :email")
     void changePassword(String newPassword, String email);
+
+    @Query(value = "SELECT u.userID from User u")
+    List<Integer> getAllUserID();
 
 }

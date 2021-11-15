@@ -5,13 +5,19 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import za.ac.nwu.PixShare.Domain.DTO.ImageDTO;
 import za.ac.nwu.PixShare.Domain.persistence.BucketName;
+import za.ac.nwu.PixShare.Domain.persistence.Image;
 import za.ac.nwu.PixShare.Domain.persistence.SharedImage;
 import za.ac.nwu.PixShare.Repo.persistence.ImageRepository;
 import za.ac.nwu.PixShare.Repo.persistence.SharedImageRepository;
 import za.ac.nwu.PixShare.Service.service.SharedImageService;
 
 import javax.transaction.Transactional;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 @Transactional
 @Component("SharedImageService")
@@ -32,14 +38,20 @@ public class SharedImageServiceImpl implements SharedImageService {
     }
 
     @Override
-    public String shareImage(Integer imgID, Integer sharerID, Integer sharedID, String imgName) throws Exception {
+    public String shareImage(ImageDTO image, Integer sharedID) throws Exception {
         try{
-            LOGGER.info("The image ID provided is {}, the userID of the user that the image is shared with is {} and the userID" +
-                    " of the user who shared the image is {}", imgID, sharedID, sharerID);
-            SharedImage sharedImage = new SharedImage(imgName, sharerID,  sharedID, imgID);
-            String fromBucket = bucketName + "/" + sharerID;
+            SharedImage sharedImage = new SharedImage(image.getName(), sharedID, image.getUserID(), image.getImageID());
+            String fromBucket = bucketName + "/" + image.getUserID();
             String toBucket = bucketName + "/" + sharedID;
-            String key = imageRepository.getImageName(imgID);
+            String key=  image.getName();
+            LOGGER.info("The image provided is {}, the userID of the user that the image is shared with is {}, from key: {}", image, sharedID, key);
+            image.setImageID(null);
+            image.setUserID(sharedID);
+
+            DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+            Date today = Calendar.getInstance().getTime();
+            image.setDate(dateFormat .format(today));
+            imageRepository.save(new Image(image));
             s3.copyObject(fromBucket, key, toBucket, key);
             sharedImageRepository.save(sharedImage);
             LOGGER.info("The output object is {}", sharedImage);
@@ -49,6 +61,7 @@ public class SharedImageServiceImpl implements SharedImageService {
         }
 
     }
+
 
     @Override
     public String deleteSharedImage(Integer sharedImgID, String imgName, Integer sharedID) throws Exception {

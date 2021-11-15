@@ -2,6 +2,7 @@ package za.ac.nwu.PixShare.Domain.persistence;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import za.ac.nwu.PixShare.Domain.DTO.ImageDTO;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -54,6 +55,14 @@ public class Image {
         this.size = size;
         this.date = date;
         this.userID = new User(userID);
+    }
+
+    public Image(ImageDTO imageDTO){
+        this.link = imageDTO.getLink();
+        this.name = imageDTO.getName();
+        this.size = imageDTO.getSize();
+        this.date = imageDTO.getDate();
+        this.userID = new User(imageDTO.getUserID());
     }
 
     public Image(String link, User userID) {

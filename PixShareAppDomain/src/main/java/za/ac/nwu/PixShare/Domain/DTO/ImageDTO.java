@@ -22,6 +22,15 @@ public class ImageDTO {
     public ImageDTO() {
     }
 
+    public ImageDTO(Integer imageID, String link, String name, double size, String date, Integer userID) {
+        this.imageID = imageID;
+        this.link = link;
+        this.name = name;
+        this.size = size;
+        this.date = date;
+        this.userID = userID;
+    }
+
     public ImageDTO(String link, String name, double size, String date, Integer userID) {
         this.link = link;
         this.name = name;
