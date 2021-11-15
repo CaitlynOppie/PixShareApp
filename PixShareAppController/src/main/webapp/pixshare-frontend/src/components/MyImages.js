@@ -137,9 +137,10 @@ export default class MyImages extends React.Component {
                                     type="button"
                                     className="buttonLayout"
                                     onClick={this.downloadImage.bind(this, image)}>
-                                    <i className="fa fa-download">
-
-                                    </i> </Button>
+                                    <i className="fa fa-download"></i>
+                                    {' '}
+                                    Download
+                                </Button>
                                 {' '}
                                 <Button
                                     variant="outline-danger"
@@ -147,6 +148,8 @@ export default class MyImages extends React.Component {
                                     className="buttonLayout"
                                     onClick={this.deleteImage.bind(this, image)}>
                                     <i className="fa fa-trash"></i>
+                                    {' '}
+                                    Delete
                                 </Button>
                                 <br/>
                                 <Form onSubmit={this.shareImage(image)} id="ShareImageForm">
@@ -162,6 +165,8 @@ export default class MyImages extends React.Component {
                                             variant="outline-light"
                                             type="submit">
                                             <i className="fa fa-share-alt"></i>
+                                            {' '}
+                                            Share
                                         </Button>
                                     </InputGroup>
                                 </Form>
