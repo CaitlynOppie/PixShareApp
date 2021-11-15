@@ -85,4 +85,18 @@ public class UserController {
         Response<Boolean> response = new Response<>(true,exists);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
+    @GetMapping(
+            path = "/user/userID/{email}")
+    @ApiOperation(value = "Gets userID based on email provided.", notes = "Gets userID based on email provided.")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "User ID provided", response = Response.class),
+            @ApiResponse(code = 400, message = "Bad Request", response = Response.class),
+            @ApiResponse(code = 404, message = "Not Found", response = Response.class)
+    })
+    public ResponseEntity<Response<Integer>> getUserID(@PathVariable("email") String email) throws Exception {
+        Integer userID = userService.getUserID(email);
+        Response<Integer> response = new Response<>(true,userID);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
 }

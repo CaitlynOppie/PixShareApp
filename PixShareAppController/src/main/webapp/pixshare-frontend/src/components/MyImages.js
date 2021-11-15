@@ -14,6 +14,7 @@ export default class MyImages extends React.Component {
             images: []
         };
         this.state.exists = '';
+        this.state.email = '';
     }
 
     componentDidMount() {
@@ -28,7 +29,7 @@ export default class MyImages extends React.Component {
     }
 
     deleteImage = (image) => {
-        axios.delete("http://localhost:8090/pix-share/mvc/image/delete/" + image.userID + "/" + image.name)
+        axios.delete("http://localhost:8090/pix-share/mvc/image/delete/" + localStorage.getItem('userID') + "/" + image.name)
             .then(response => {
                 if (response.data != null) {
                     if (!alert(image.name + " deleted successfully")) {
@@ -55,7 +56,17 @@ export default class MyImages extends React.Component {
     shareImage(image) {
         return event => {
             event.preventDefault();
-            localStorage.setItem('sharedUserID', this.state.userID);
+            localStorage.setItem('sharedUserEmail', this.state.email);
+
+            console.log(localStorage.getItem('sharedUserEmail'));
+            axios
+                .get("http://localhost:8090/pix-share/mvc/user/userID/"+ localStorage.getItem('sharedUserEmail'))
+                .then(res => res.data)
+                .then((data) => {
+
+                    localStorage.setItem('sharedUserID', data.data);
+                    console.log(localStorage.getItem('sharedUserID'));
+                });
             axios
                 .get("http://localhost:8090/pix-share/mvc/user/exists/"+ localStorage.getItem('sharedUserID'))
                 .then(res => res.data)
@@ -71,9 +82,6 @@ export default class MyImages extends React.Component {
                         img.append("sharedUserID", localStorage.getItem('sharedUserID'));
                         img.append("size", image.size);
                         img.append("user", image.userID);
-                        //http://localhost:8090/pix-share/mvc/sharedImage/shareImage}?date=2021%2F11%2F15&imageid=42&link=pixshare%2F28%2F2015-06-11%2013.45.06.jpg&name=2015-06-11%2013.45.06.jpg&sharedUserID=17&size=406&user=28
-
-                        // console.log(image.name, image.size, image.link, image.date, image.userID);
 
                         axios
                             .post("http://localhost:8090/pix-share/mvc/sharedImage/shareImage",img)
@@ -91,13 +99,14 @@ export default class MyImages extends React.Component {
                     }
                 });
 
-
+            localStorage.setItem('sharedUserEmail', '');
+            localStorage.setItem('sharedUserID', '');
         }
     }
 
 
     render() {
-        const {userID} = this.state;
+        const {userID, email} = this.state;
         let uID = localStorage.getItem('userID');
         return (
             <Card className="cards">
@@ -143,10 +152,10 @@ export default class MyImages extends React.Component {
                                 <Form onSubmit={this.shareImage(image)} id="ShareImageForm">
                                     <InputGroup className="mb-3">
                                         <FormControl
-                                            placeholder="User ID"
-                                            aria-label="User ID"
+                                            placeholder="Email"
+                                            aria-label="Email"
                                             aria-describedby="basic-addon2"
-                                            name="userID"
+                                            name="email"
                                             onChange={this.setUserID}
                                         />
                                         <Button

@@ -14,5 +14,7 @@ public interface UserService {
 
     String changePassword(String email, String newPassword) throws Exception;
 
-    Boolean getAllUsers(Integer uID) throws SQLException, Exception;
+    Boolean getAllUsers(Integer uID) throws Exception;
+
+    Integer getUserID(String email) throws Exception;
 }

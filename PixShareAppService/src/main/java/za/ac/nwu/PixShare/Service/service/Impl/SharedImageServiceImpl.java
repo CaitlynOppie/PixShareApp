@@ -44,13 +44,14 @@ public class SharedImageServiceImpl implements SharedImageService {
             String fromBucket = bucketName + "/" + image.getUserID();
             String toBucket = bucketName + "/" + sharedID;
             String key=  image.getName();
-            LOGGER.info("The image provided is {}, the userID of the user that the image is shared with is {}, from key: {}", image, sharedID, key);
+            LOGGER.info("The image provided is {}, the userID of the user that the image is shared with is {}, from bucket: {}, to bucket: {}", image, sharedID, fromBucket, toBucket);
             image.setImageID(null);
             image.setUserID(sharedID);
 
             DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
             Date today = Calendar.getInstance().getTime();
             image.setDate(dateFormat .format(today));
+            image.setLink(bucketName + "/" + sharedID + "/" + image.getName());
             imageRepository.save(new Image(image));
             s3.copyObject(fromBucket, key, toBucket, key);
             sharedImageRepository.save(sharedImage);

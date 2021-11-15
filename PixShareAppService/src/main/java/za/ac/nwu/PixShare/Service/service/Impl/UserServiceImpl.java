@@ -92,9 +92,18 @@ public class UserServiceImpl implements UserService {
 
             return userExists;
         }catch(Exception e){
-            throw new SQLException("Users could not be obtained");
+            throw new Exception("Users could not be obtained",e);
         }
 
+    }
+
+    @Override
+    public Integer getUserID(String email) throws Exception {
+        try{
+            return userRepository.getUserID(email);
+        }catch (Exception e){
+            throw new Exception("Users could not be obtained",e);
+        }
     }
 
 
