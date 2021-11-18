@@ -1,9 +1,16 @@
-import React from 'react';
+import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 
-import {Navbar, Nav} from 'react-bootstrap'
+import {Navbar, Nav, Button} from 'react-bootstrap'
 
 export default class NavigationBar extends React.Component{
+
+    userLogin = event => {
+        localStorage.setItem('email','');
+        localStorage.setItem('userID','');
+        window.location ="/Login";
+    }
+
     render(){
         return(
             <Navbar bg="dark" variant="dark">
@@ -20,8 +27,28 @@ export default class NavigationBar extends React.Component{
                         </Link>
                      </Nav.Item>
                      <Nav.Item className="navbar-right">
-                         <Link to={"/MyImages"} className="btn btn-outline-light">Images</Link>
-                         <Link to={"/Login"} className="btn btn-outline-light">Log in</Link>
+                         <Link
+                             to={"/MyImages"}
+                             className="btn btn-outline-light">
+                             <i className="fa fa-picture-o" aria-hidden="true"></i>
+                             {' '}
+                             Images
+                         </Link>
+                         {' '}
+                         {/*<Link*/}
+                         {/*    to={"/Login"}*/}
+                         {/*    className="btn btn-outline-light">*/}
+                         {/*    <i className="fa fa-user" aria-hidden="true"></i>*/}
+                         {/*    {' '}*/}
+                         {/*    Log in*/}
+                         {/*</Link>*/}
+                         <Button
+                             variant="outline-light"
+                             onClick={this.userLogin}>
+                             <i className="fa fa-user" aria-hidden="true"></i>
+                             {' '}
+                             Login
+                         </Button>
                      </Nav.Item>
                  </Nav>
             </Navbar>

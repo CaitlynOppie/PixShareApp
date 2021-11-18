@@ -9,6 +9,7 @@ export default class Login extends React.Component {
     constructor(props) {
         super(props);
         this.state = this.initialState;
+        localStorage.setItem('loggedIn', 'Log In');
     }
 
     initialState = {
@@ -25,34 +26,42 @@ export default class Login extends React.Component {
     userLogin = event => {
         event.preventDefault();
         localStorage.setItem('email',this.state.email);
-        console.log(localStorage.getItem('email'));
-        axios
-            .get("http://localhost:8090/pix-share/mvc/user/userID/"+ localStorage.getItem('email'))
-            .then(res => res.data)
-            .then((data) => {
-                console.log(data);
-                this.setState({id: data.data});
-                localStorage.setItem('userID',this.state.id);
-                axios
-                    .get("http://localhost:8090/pix-share/mvc/user/exists/"+ localStorage.getItem('userID'))
-                    .then(res => res.data)
-                    .then((data) => {
-                        console.log(data);
-                        this.setState({exists: data.data});
-                        if(this.state.exists){
-                            window.location ="/MyImages";
-                        }
-                        else{
+        if(localStorage.getItem('email') === ''){
+            alert("Please enter your email to proceed");
+        }else{
+            console.log(localStorage.getItem('email'));
+            axios
+                .get("http://localhost:8090/pix-share/mvc/user/userID/"+ localStorage.getItem('email'))
+                .then(res => res.data)
+                .then((data) => {
+                    console.log(data);
+                    this.setState({id: data.data});
+                    localStorage.setItem('userID',this.state.id);
+                    axios
+                        .get("http://localhost:8090/pix-share/mvc/user/exists/"+ localStorage.getItem('userID'))
+                        .then(res => res.data)
+                        .then((data) => {
+                            console.log(data);
+                            this.setState({exists: data.data});
+                            if(this.state.exists){
+                                localStorage.setItem('log', 't');
+                                localStorage.setItem('loggedIn', 'Log out');
+                                window.location ="/MyImages";
+                            }
+                            else{
+                                localStorage.setItem('loggedIn', 'Log in');
+                                localStorage.setItem('log', 't');
+                                alert("User with email: " + localStorage.getItem('email') + " does not exist");
+                                this.state.id = '';
+                                this.state.exists='';
+                            }
+                        })
+                        .catch(err => {
                             alert("User with email: " + localStorage.getItem('email') + " does not exist");
-                            this.state.id = '';
-                            this.state.exists='';
-                        }
-                    })
-                    .catch(err => {
-                        alert("User with email: " + localStorage.getItem('email') + " does not exist");
-                    });
+                        });
 
-            });
+                });
+        }
     }
 
     //userLogin = event => {
@@ -76,6 +85,7 @@ export default class Login extends React.Component {
     //     }
 
     render() {
+        localStorage.setItem('loggedIn', 'Log In');
         const {id, email} = this.state;
         return (
             <Card className="loginCard">
@@ -97,7 +107,6 @@ export default class Login extends React.Component {
                         <Form.Group controlId="formEmail">
                             <Form.Label>Email</Form.Label>
                             <Form.Control
-                                required
                                 type="text"
                                 name="email"
                                 value={email}
@@ -107,16 +116,21 @@ export default class Login extends React.Component {
 
                     </Card.Body>
                     <Card.Footer style={{"textAlign":"right"}}>
-                        <Button
-                            variant="outline-light"
-                            onClick={this.userLogin}>
-                            Login
-                        </Button>{' '}
                         <Link
                             to={"Register"}
                             className="btn btn-outline-success">
+                            <i className="fa fa-user-plus" aria-hidden="true"></i>
+                            {' '}
                             Register
                         </Link>
+                        <Button
+                            variant="outline-light"
+                            onClick={this.userLogin}>
+                            <i className="fa fa-user" aria-hidden="true"></i>
+                            {' '}
+                            Login
+                        </Button>{' '}
+
                     </Card.Footer>
                 </Form>
             </Card>

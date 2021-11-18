@@ -64,15 +64,22 @@ export default class AddImage extends React.Component{
                     </Card.Body>
                 <Card.Footer style={{"textAlign":"right"}}>
                     <Button
-                        variant="outline-danger"
-                        type="reset">
-                        Reset Form
-                    </Button>{' '}
-                    <Button
                         variant="outline-light"
-                        type="submit">
+                        type="submit"
+                        className="buttonLayout">
+                        <i className="fa fa-plus" aria-hidden="true"></i>
+                        {' '}
                         Add Image
                     </Button>{' '}
+                    <Button
+                        variant="outline-danger"
+                        type="reset"
+                        className="buttonLayout">
+                        <i className="fa fa-undo" aria-hidden="true"></i>
+                        {' '}
+                        Reset Form
+                    </Button>{' '}
+
                 </Card.Footer>
                 </Form>
             </Card>

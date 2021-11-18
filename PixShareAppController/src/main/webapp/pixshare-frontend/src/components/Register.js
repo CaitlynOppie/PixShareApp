@@ -107,6 +107,8 @@ export default class Login extends React.Component {
                         <Button
                             variant="outline-light"
                             type="submit">
+                            <i className="fa fa-user-plus" aria-hidden="true"></i>
+                            {' '}
                             Register
                         </Button>{' '}
                     </Card.Footer>

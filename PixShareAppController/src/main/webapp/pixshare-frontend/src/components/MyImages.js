@@ -37,7 +37,6 @@ export default class MyImages extends React.Component {
                     }
                 }
             })
-        // alert("http://localhost:8090/pix-share/mvc/image/delete/17/"+image.name);
     };
 
     downloadImage = (image) => {
@@ -113,7 +112,11 @@ export default class MyImages extends React.Component {
                 <Card.Header>
                     My Images
                     {' '}
-                    <Link to={"AddImage"} className="btn btn-outline-light">Add Image</Link>
+                    <Link to={"AddImage"} className="btn btn-outline-light">
+                        <i className="fa fa-plus" aria-hidden="true"></i>
+                        {' '}
+                        Add Image
+                    </Link>
                 </Card.Header>
                 <Card.Body>
                     <div>

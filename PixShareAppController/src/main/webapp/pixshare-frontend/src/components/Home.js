@@ -4,6 +4,7 @@ import {Carousel} from "react-bootstrap";
 export default class Home extends React.Component {
 
     render() {
+        localStorage.setItem('loggedIn', 'Log In');
         return (
             <Carousel>
                 <Carousel.Item interval={1000}>
