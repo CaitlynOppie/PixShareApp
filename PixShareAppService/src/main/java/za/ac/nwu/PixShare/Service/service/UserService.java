@@ -10,11 +10,9 @@ public interface UserService {
 
     String addUser(UserDTO userDTO) throws Exception;
 
-    String deleteUser(Integer userID) throws Exception;
-
-    String changePassword(String email, String newPassword) throws Exception;
-
     Boolean getAllUsers(Integer uID) throws Exception;
 
     Integer getUserID(String email) throws Exception;
+
+    Boolean userValid(String email, String password) throws Exception;
 }

@@ -4,6 +4,7 @@ import com.amazonaws.services.s3.AmazonS3;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 import za.ac.nwu.PixShare.Domain.DTO.UserDTO;
@@ -26,6 +27,7 @@ public class UserServiceImpl implements UserService {
     private final AmazonS3 s3;
     private String bucketName = BucketName.IMAGE.getBucketName();
     private UserRepository userRepository;
+
     private BCryptPasswordEncoder passwordEncoder;
 
     @Autowired
@@ -54,29 +56,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String deleteUser(Integer userID) throws Exception {
-        try {
-            LOGGER.info("The provided userID is {}", userID);
-            userRepository.deleteById(userID);
-            return "Sorry to see you go.";
-        }catch (Exception e) {
-            throw new Exception("User profile could not be deleted", e);
-        }
-    }
-
-    @Override
-    public String changePassword(String email, String newPassword) throws Exception {
-        try {
-            LOGGER.info("The email for the user is {}", email);
-            String encryptedPassword = passwordEncoder.encode(newPassword);
-            userRepository.changePassword(encryptedPassword,email);
-            return "Password for " + email + " has successfully be changed";
-        }catch (Exception e) {
-            throw new Exception("User password could not be changed", e);
-        }
-    }
-
-    @Override
     public Boolean getAllUsers(Integer uID) throws Exception {
         try{
 
@@ -89,7 +68,7 @@ public class UserServiceImpl implements UserService {
                     userExists = true;
                 }
             }
-
+            LOGGER.info("The output is {}", userExists);
             return userExists;
         }catch(Exception e){
             throw new Exception("Users could not be obtained",e);
@@ -103,6 +82,27 @@ public class UserServiceImpl implements UserService {
             return userRepository.getUserID(email);
         }catch (Exception e){
             throw new Exception("Users could not be obtained",e);
+        }
+    }
+
+    @Override
+    public Boolean userValid(String email, String password) throws Exception {
+        try{
+            LOGGER.info("The email is {}, and the password is {}", email,password);
+            Boolean valid;
+            String validPW = userRepository.getPassword(email);
+            String encryptPassword = passwordEncoder.encode(password);
+            LOGGER.info("The valid password is {}, and the provided password is {}", validPW,encryptPassword);
+            if(validPW == encryptPassword){
+                valid = true;
+            }else
+            {
+                valid = false;
+            }
+            LOGGER.info("The output is {}", valid);
+            return valid;
+        }catch (Exception ex){
+            throw new Exception("User credentials incorrect");
         }
     }
 

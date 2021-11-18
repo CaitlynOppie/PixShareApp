@@ -60,7 +60,8 @@ public class ImageController {
     public ResponseEntity<String> deleteFile(
             @PathVariable Integer userID,
             @PathVariable String imgName) throws Exception {
-        return new ResponseEntity<>(imageService.deleteImage(userID, imgName), HttpStatus.OK);
+        return new ResponseEntity<>(imageService.
+                deleteImage(userID, imgName), HttpStatus.OK);
     }
 
 //  DOWNLOAD IMAGE

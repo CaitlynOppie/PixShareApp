@@ -46,32 +46,6 @@ public class UserController {
         return new ResponseEntity<>(userService.addUser(userDTO), HttpStatus.OK);
     }
 
-
-
-    @DeleteMapping(
-            path = "/user/delete/{userID}")
-    @ApiOperation(value = "Deletes the users profile.", notes = "Deletes user profile.")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "User profile was deleted", response = Response.class),
-            @ApiResponse(code = 400, message = "Bad Request", response = Response.class),
-            @ApiResponse(code = 404, message = "Not Found", response = Response.class)
-    })
-    public ResponseEntity<String> deleteUser(@PathVariable Integer userID) throws Exception {
-        return new ResponseEntity<>(userService.deleteUser(userID), HttpStatus.OK);
-    }
-
-    @PutMapping(
-            path = "/user/changePassword/{email}/{password}")
-    @ApiOperation(value = "Changes the password for the user's profile.", notes = "Changes the password for the user's profile.")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Password changed", response = Response.class),
-            @ApiResponse(code = 400, message = "Bad Request", response = Response.class),
-            @ApiResponse(code = 404, message = "Not Found", response = Response.class)
-    })
-    public ResponseEntity<String> changePassword(@PathVariable String email, @PathVariable String password) throws Exception {
-        return new ResponseEntity<>(userService.changePassword(email,password), HttpStatus.OK);
-    }
-
     @GetMapping(
             path = "/user/exists/{userID}")
     @ApiOperation(value = "Checks if a user exists.", notes = "Checks if a user exists")
@@ -97,6 +71,22 @@ public class UserController {
     public ResponseEntity<Response<Integer>> getUserID(@PathVariable("email") String email) throws Exception {
         Integer userID = userService.getUserID(email);
         Response<Integer> response = new Response<>(true,userID);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @GetMapping(
+            path = "/user/validUser/{email}/{password}")
+    @ApiOperation(value = "Checks if user is valid.", notes = "Checks if user is valid.")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "User validadted", response = Response.class),
+            @ApiResponse(code = 400, message = "Bad Request", response = Response.class),
+            @ApiResponse(code = 404, message = "Not Found", response = Response.class)
+    })
+    public ResponseEntity<Response<Boolean>> validUser(
+            @PathVariable("email") String email,
+            @PathVariable("password") String password) throws Exception {
+        Boolean valid = userService.userValid(email,password);
+        Response<Boolean> response = new Response<>(true,valid);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }
