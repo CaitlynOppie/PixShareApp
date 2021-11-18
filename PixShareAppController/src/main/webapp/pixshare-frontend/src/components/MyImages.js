@@ -56,50 +56,54 @@ export default class MyImages extends React.Component {
         return event => {
             event.preventDefault();
             localStorage.setItem('sharedUserEmail', this.state.email);
+            if(localStorage.getItem('sharedUserEmail') === ''){
+                alert("Email of user needs to be provided in order to share image");
+            }else{
+                console.log(localStorage.getItem('sharedUserEmail'));
+                axios
+                    .get("http://localhost:8090/pix-share/mvc/user/userID/"+ localStorage.getItem('sharedUserEmail'))
+                    .then(res => res.data)
+                    .then((data) => {
 
-            console.log(localStorage.getItem('sharedUserEmail'));
-            axios
-                .get("http://localhost:8090/pix-share/mvc/user/userID/"+ localStorage.getItem('sharedUserEmail'))
-                .then(res => res.data)
-                .then((data) => {
+                        localStorage.setItem('sharedUserID', data.data);
+                        console.log(localStorage.getItem('sharedUserID'));
+                    });
+                axios
+                    .get("http://localhost:8090/pix-share/mvc/user/exists/"+ localStorage.getItem('sharedUserID'))
+                    .then(res => res.data)
+                    .then((data) => {
+                        console.log(data);
+                        this.setState({exists: data.data});
+                        if(this.state.exists){
+                            const img = new FormData();
+                            img.append("date", image.date);
+                            img.append("imageid", image.imageID);
+                            img.append("link", image.link);
+                            img.append("name", image.name);
+                            img.append("sharedUserID", localStorage.getItem('sharedUserID'));
+                            img.append("size", image.size);
+                            img.append("user", image.userID);
 
-                    localStorage.setItem('sharedUserID', data.data);
-                    console.log(localStorage.getItem('sharedUserID'));
-                });
-            axios
-                .get("http://localhost:8090/pix-share/mvc/user/exists/"+ localStorage.getItem('sharedUserID'))
-                .then(res => res.data)
-                .then((data) => {
-                    console.log(data);
-                    this.setState({exists: data.data});
-                    if(this.state.exists){
-                        const img = new FormData();
-                        img.append("date", image.date);
-                        img.append("imageid", image.imageID);
-                        img.append("link", image.link);
-                        img.append("name", image.name);
-                        img.append("sharedUserID", localStorage.getItem('sharedUserID'));
-                        img.append("size", image.size);
-                        img.append("user", image.userID);
+                            axios
+                                .post("http://localhost:8090/pix-share/mvc/sharedImage/shareImage",img)
+                                .then(response => {
+                                    alert("Image shared successfully");
+                                })
+                                .catch(err => {
+                                    alert("Image could not be shared. Double check userID");
+                                });
+                        }
+                        else{
+                            alert("User with ID: " + localStorage.getItem('sharedUserID') + " does not exist");
+                            this.state.userID = '';
+                            this.state.exists='';
+                        }
+                    });
 
-                        axios
-                            .post("http://localhost:8090/pix-share/mvc/sharedImage/shareImage",img)
-                            .then(response => {
-                                alert("Image shared successfully");
-                            })
-                            .catch(err => {
-                                alert("Image could not be shared. Double check userID");
-                            });
-                    }
-                    else{
-                        alert("User with ID: " + localStorage.getItem('sharedUserID') + " does not exist");
-                        this.state.userID = '';
-                        this.state.exists='';
-                    }
-                });
+                localStorage.setItem('sharedUserEmail', '');
+                localStorage.setItem('sharedUserID', '');
+            }
 
-            localStorage.setItem('sharedUserEmail', '');
-            localStorage.setItem('sharedUserID', '');
         }
     }
 
