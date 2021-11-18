@@ -11,6 +11,15 @@ export default class NavigationBar extends React.Component{
         window.location ="/Login";
     }
 
+    userImages = event => {
+        if(localStorage.getItem('userID') === '' || localStorage.getItem('email') === ''){
+            alert("You are not logged in, please log in to view and upload images");
+        }else{
+            window.location ="/MyImages";
+        }
+
+    }
+
     render(){
         return(
             <Navbar bg="dark" variant="dark">
@@ -27,21 +36,14 @@ export default class NavigationBar extends React.Component{
                         </Link>
                      </Nav.Item>
                      <Nav.Item className="navbar-right">
-                         <Link
-                             to={"/MyImages"}
-                             className="btn btn-outline-light">
+                         <Button
+                             variant="outline-light"
+                             onClick={this.userImages}>
                              <i className="fa fa-picture-o" aria-hidden="true"></i>
                              {' '}
                              Images
-                         </Link>
+                         </Button>
                          {' '}
-                         {/*<Link*/}
-                         {/*    to={"/Login"}*/}
-                         {/*    className="btn btn-outline-light">*/}
-                         {/*    <i className="fa fa-user" aria-hidden="true"></i>*/}
-                         {/*    {' '}*/}
-                         {/*    Log in*/}
-                         {/*</Link>*/}
                          <Button
                              variant="outline-light"
                              onClick={this.userLogin}>

@@ -103,6 +103,15 @@ export default class MyImages extends React.Component {
         }
     }
 
+    addImage = event => {
+        if(localStorage.getItem('userID') === ''){
+            alert("You are not logged in, please log in to start uploading images");
+        }else{
+            window.location ="/AddImage";
+        }
+
+    }
+
 
     render() {
         const {userID, email} = this.state;
@@ -112,11 +121,15 @@ export default class MyImages extends React.Component {
                 <Card.Header>
                     My Images
                     {' '}
-                    <Link to={"AddImage"} className="btn btn-outline-light">
+                    <Button
+                        variant="outline-light"
+                        type="submit"
+                        className="buttonLayout"
+                        onClick={this.addImage}>
                         <i className="fa fa-plus" aria-hidden="true"></i>
                         {' '}
                         Add Image
-                    </Link>
+                    </Button>
                 </Card.Header>
                 <Card.Body>
                     <div>

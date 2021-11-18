@@ -123,6 +123,7 @@ export default class Login extends React.Component {
                             {' '}
                             Register
                         </Link>
+                        {' '}
                         <Button
                             variant="outline-light"
                             onClick={this.userLogin}>
