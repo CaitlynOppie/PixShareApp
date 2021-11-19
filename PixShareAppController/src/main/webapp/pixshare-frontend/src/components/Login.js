@@ -44,13 +44,11 @@ export default class Login extends React.Component {
                             console.log(data);
                             this.setState({exists: data.data});
                             if(this.state.exists){
-                                localStorage.setItem('log', 't');
                                 localStorage.setItem('loggedIn', 'Log out');
                                 window.location ="/MyImages";
                             }
                             else{
                                 localStorage.setItem('loggedIn', 'Log in');
-                                localStorage.setItem('log', 't');
                                 alert("User with email: " + localStorage.getItem('email') + " does not exist");
                                 this.state.id = '';
                                 this.state.exists='';
@@ -85,25 +83,16 @@ export default class Login extends React.Component {
     //     }
 
     render() {
-        localStorage.setItem('loggedIn', 'Log In');
+        localStorage.setItem('loggedIn', 'Log in');
+        localStorage.setItem('email', '');
         const {id, email} = this.state;
         return (
             <Card className="loginCard">
                 <Card.Header>
-                    Login
+                    Log in
                 </Card.Header>
                 <Form id="LoginForm">
                     <Card.Body>
-                        {/*<Form.Group controlId="formID">*/}
-                        {/*    <Form.Label>User ID</Form.Label>*/}
-                        {/*    <Form.Control*/}
-                        {/*        required*/}
-                        {/*        type="text"*/}
-                        {/*        name="id"*/}
-                        {/*        value={id}*/}
-                        {/*        onChange={this.userChange}*/}
-                        {/*        placeholder="Enter userID" />*/}
-                        {/*</Form.Group>*/}
                         <Form.Group controlId="formEmail">
                             <Form.Label>Email</Form.Label>
                             <Form.Control
@@ -111,7 +100,7 @@ export default class Login extends React.Component {
                                 name="email"
                                 value={email}
                                 onChange={this.userChange}
-                                placeholder="Enter email" />
+                                placeholder="example@gmail.com" />
                         </Form.Group>
 
                     </Card.Body>
@@ -129,7 +118,7 @@ export default class Login extends React.Component {
                             onClick={this.userLogin}>
                             <i className="fa fa-user" aria-hidden="true"></i>
                             {' '}
-                            Login
+                            Log in
                         </Button>{' '}
 
                     </Card.Footer>

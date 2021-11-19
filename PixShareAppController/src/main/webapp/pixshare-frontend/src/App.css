@@ -63,7 +63,7 @@
 .loginCard {
   color: white;
   background-color: #282c34;
-  width: 40%;
+  width: 60%;
   margin: auto;
 }
 
@@ -88,6 +88,11 @@
   color: white;
   border-color: red;
   background: red;
+}
+
+.userEmail {
+  color: white;
+  margin: 2px 2px 10px;
 }
 
 @keyframes App-logo-spin {

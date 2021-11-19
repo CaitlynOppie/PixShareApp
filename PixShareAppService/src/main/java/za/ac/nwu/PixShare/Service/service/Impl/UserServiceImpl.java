@@ -39,16 +39,23 @@ public class UserServiceImpl implements UserService {
 
     //    ADD NEW USER
     @Override
-    public String addUser(UserDTO userDTO) throws Exception {
+    public UserDTO addUser(UserDTO userDTO) throws Exception {
         try{
             LOGGER.info("The input is {}", userDTO);
+            if(null == userDTO.getFirstName()){
+                userDTO.setUserID(0);
+                userDTO.setFirstName("Name");
+                userDTO.setLastName("Surname");
+                userDTO.setEmail("email@gmail.com");
+                userDTO.setPassword("123456789");
+            }
             String password = userDTO.getPassword();
             String encryptedPassword = passwordEncoder.encode(password);
             userDTO.setPassword(encryptedPassword);
             userRepository.save(userDTO.getUser());
 //            delete images from s3 folder
             LOGGER.info("The output object is {}", userDTO.getUser());
-            return "Welcome to the PixShare family " + userDTO.getFirstName();
+            return userDTO;
         }catch (Exception e){
             throw new Exception("User could not be added",e);
         }
@@ -56,7 +63,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Boolean getAllUsers(Integer uID) throws Exception {
+    public Boolean checkUserExists(Integer uID) throws Exception {
         try{
 
             Boolean userExists = false;
@@ -77,7 +84,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Integer getUserID(String email) throws Exception {
+    public Integer getID(String email) throws Exception {
         try{
             return userRepository.getUserID(email);
         }catch (Exception e){

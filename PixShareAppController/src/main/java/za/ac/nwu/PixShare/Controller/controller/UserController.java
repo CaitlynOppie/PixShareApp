@@ -42,7 +42,7 @@ public class UserController {
             @ApiResponse(code = 400, message = "Bad Request", response = Response.class),
             @ApiResponse(code = 404, message = "Not Found", response = Response.class)
     })
-    public ResponseEntity<String> addUser(@ModelAttribute UserDTO userDTO) throws Exception {
+    public ResponseEntity<UserDTO> addUser(@ModelAttribute UserDTO userDTO) throws Exception {
         return new ResponseEntity<>(userService.addUser(userDTO), HttpStatus.OK);
     }
 
@@ -55,7 +55,7 @@ public class UserController {
             @ApiResponse(code = 404, message = "Not Found", response = Response.class)
     })
     public ResponseEntity<Response<Boolean>> checkUserExists(@PathVariable("userID") Integer userID) throws Exception {
-        Boolean exists = userService.getAllUsers(userID);
+        Boolean exists = userService.checkUserExists(userID);
         Response<Boolean> response = new Response<>(true,exists);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
@@ -69,7 +69,7 @@ public class UserController {
             @ApiResponse(code = 404, message = "Not Found", response = Response.class)
     })
     public ResponseEntity<Response<Integer>> getUserID(@PathVariable("email") String email) throws Exception {
-        Integer userID = userService.getUserID(email);
+        Integer userID = userService.getID(email);
         Response<Integer> response = new Response<>(true,userID);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }

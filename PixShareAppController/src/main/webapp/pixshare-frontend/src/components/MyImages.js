@@ -15,6 +15,11 @@ export default class MyImages extends React.Component {
         };
         this.state.exists = '';
         this.state.email = '';
+        this.deleteImage = this.deleteImage.bind(this);
+        this.downloadImage = this.downloadImage.bind(this);
+        this.setUserID = this.setUserID.bind(this);
+        this.shareImage = this.shareImage.bind(this);
+        this.addImage = this.addImage.bind(this);
     }
 
     componentDidMount() {
@@ -48,7 +53,6 @@ export default class MyImages extends React.Component {
         this.setState({
             [event.target.name]:event.target.value
         });
-
     }
 
 
@@ -103,7 +107,7 @@ export default class MyImages extends React.Component {
                 localStorage.setItem('sharedUserEmail', '');
                 localStorage.setItem('sharedUserID', '');
             }
-
+            this.state.email='';
         }
     }
 
@@ -179,6 +183,7 @@ export default class MyImages extends React.Component {
                                             aria-label="Email"
                                             aria-describedby="basic-addon2"
                                             name="email"
+                                            value={email}
                                             onChange={this.setUserID}
                                         />
                                         <Button
