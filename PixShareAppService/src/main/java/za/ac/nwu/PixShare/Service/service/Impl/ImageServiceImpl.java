@@ -129,6 +129,7 @@ public class ImageServiceImpl implements ImageService {
             for (S3ObjectSummary summary: listing.getObjectSummaries()) {
                 names.add(summary.getKey());
             }
+            LOGGER.info("The output is: {}", names);
             return names;
 
         } catch (Exception e) {
@@ -139,6 +140,8 @@ public class ImageServiceImpl implements ImageService {
     @Override
     public List<ImageDTO> getAllUserImage(Integer userID) throws Exception {
         try {
+            LOGGER.info("The userID is {} ", userID);
+            LOGGER.info("The output is: {}",imageRepository.findAllByUserID(new User(userID)) );
             return imageRepository.findAllByUserID(new User(userID));
         } catch (Exception e) {
             throw new Exception("Could not get all user images");

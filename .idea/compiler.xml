@@ -7,8 +7,16 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="PixShareAppDomain" />
-        <module name="PixShareAppRepository" />
         <module name="PixShareAppService" />
+        <module name="PixShareAppRepository" />
+      </profile>
+      <profile name="Annotation profile for PixShareApp" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$PROJECT_DIR$/../../repo/org/springframework/boot/spring-boot-configuration-processor/2.0.4.RELEASE/spring-boot-configuration-processor-2.0.4.RELEASE.jar" />
+        </processorPath>
         <module name="PixShareAppController" />
       </profile>
     </annotationProcessing>

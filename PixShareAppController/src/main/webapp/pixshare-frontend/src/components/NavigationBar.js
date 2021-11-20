@@ -47,7 +47,6 @@ export default class NavigationBar extends React.Component{
                         <Navbar.Collapse id='responsive-navbar-nav'>
                             <div className="ms-auto">
                                 <Nav.Item>
-                                    <p className="userEmail">{localStorage.getItem('email')}</p>
                                     <Button
                                         variant="outline-light"
                                         onClick={this.userImages}>
